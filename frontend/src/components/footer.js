@@ -1,9 +1,17 @@
 import styled from "styled-components";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = () => {
   return (
     <FooterContainer>
-      Github
+      <a
+        href="https://github.com/skkuse/2023fall_41class_team4"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <FontAwesomeIcon icon={faGithub} className="icon" />
+      </a>
       <NameContainer>
         <li>김동한</li>
         <li>안낙균</li>
@@ -25,6 +33,10 @@ const FooterContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.25rem;
+  .icon {
+    font-size: 2.5rem;
+    color: white;
+  }
 `;
 const NameContainer = styled.ul`
   > li {
