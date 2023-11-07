@@ -22,4 +22,18 @@ export class CarbonEmissionsConvertedValuesDto {
 
   @IsNotEmpty()
   readonly flightParisToLondon: number;
+
+  constructor(
+    carbonFootPrint: number,
+    energy: number,
+    treeMonths: number,
+    passengerCar: number,
+    flightParisToLondon: number,
+  ) {
+    this.carbonFootPrint = carbonFootPrint;
+    this.energy = energy;
+    this.treeMonths = treeMonths;
+    this.passengerCar = passengerCar;
+    this.flightParisToLondon = flightParisToLondon;
+  }
 }
