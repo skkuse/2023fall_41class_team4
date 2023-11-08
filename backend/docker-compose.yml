@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8
+    env_file:
+      - .db_env
+    environment:
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 13306:3306
