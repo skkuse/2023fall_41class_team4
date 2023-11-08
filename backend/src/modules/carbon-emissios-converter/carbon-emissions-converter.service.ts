@@ -15,8 +15,8 @@ export class CarbonEmissionsConverterService {
   readonly PARIS_TO_LONDON_CARBON_EMISSIONS = 50000;
 
   /**
-   * 탅소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
-   * @param carbonEmission 탄소 배출량 (gCo2e)
+   * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
+   * @param carbonEmission 탄소 배출량 (gCo2e 단위)
    */
   getConvertedCarbonEmissionsValues(
     carbonEmission: number,
