@@ -1,10 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
 import HowItWorks from "./components/howItWorks";
+import styled from "styled-components";
 
 function App() {
   return (
-    <div className="App">
+    <Wrapper>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -20,8 +21,15 @@ function App() {
         </a>
       </header>
       <HowItWorks />
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default App;
