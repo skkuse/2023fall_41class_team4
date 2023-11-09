@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ['backend', 'feat#18']
+    branches: ['backend']
 
 env:
   REGISTRY: ghcr.io/skkuse/2023fall_41class_team4
