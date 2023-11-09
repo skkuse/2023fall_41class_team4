@@ -5,7 +5,6 @@ import { CarbonEmissionsConvertedValuesDto } from './carbon-emissions-converted-
  * @file carbon-emissions-converter.service.ts
  * @description 탄소 배출량을 일상생활에서의 각종 사용량으로 변환하는 역할을 담당하는 클래스입니다.
  * @author Min Ho CHO
- * TODO: 제공하는 dto 타입을 값으로 제공할 것인지, string 타입으로 제공할 것인지 협의 필요
  */
 @Injectable()
 export class CarbonEmissionsConverterService {
