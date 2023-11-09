@@ -5,7 +5,7 @@ on:
     branches: ['backend', 'feat#18']
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: ghcr.io/skkuse/2023fall_41class_team4
   IMAGE_NAME: codemeter
 
 jobs:
