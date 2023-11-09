@@ -32,13 +32,13 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Extract Docker metadata
-       id: meta
-       uses: docker/metadata-action@v4
-       with:
-         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-         tags: |
-           type=raw,value=${{ github.run_number }}
-           type=raw,value=latest
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=raw,value=${{ github.run_number }}
+          type=raw,value=latest
 
     - name: Build and push
       uses: docker/build-push-action@v3
