@@ -4,22 +4,22 @@
  * @author Min Ho CHO
  */
 export class CarbonEmissionsConvertedValuesDto {
-  readonly carbonFootPrint: number;
+  readonly carbonFootPrint: string;
 
-  readonly energy: number;
+  readonly energy: string;
 
-  readonly treeMonths: number;
+  readonly treeMonths: string;
 
-  readonly passengerCar: number;
+  readonly passengerCar: string;
 
-  readonly flightParisToLondon: number;
+  readonly flightParisToLondon: string;
 
   constructor(
-    carbonFootPrint: number,
-    energy: number,
-    treeMonths: number,
-    passengerCar: number,
-    flightParisToLondon: number,
+    carbonFootPrint: string,
+    energy: string,
+    treeMonths: string,
+    passengerCar: string,
+    flightParisToLondon: string,
   ) {
     this.carbonFootPrint = carbonFootPrint;
     this.energy = energy;
