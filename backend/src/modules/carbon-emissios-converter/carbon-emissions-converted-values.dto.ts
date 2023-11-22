@@ -19,16 +19,16 @@ export class CarbonEmissionsConvertedValuesDto {
   constructor(
     carbonFootPrint: number,
     energy: number,
-    treeMonths: number,
+    tvWatchingTime: number,
     passengerCar: number,
-    flightParisToLondon: number,
+    elevatorFloorMovement: number,
     a4PaperUsage: number,
   ) {
     this.carbonFootPrint = carbonFootPrint;
     this.energy = energy;
-    this.tvWatchingTime = treeMonths;
+    this.tvWatchingTime = tvWatchingTime;
     this.passengerCarMileage = passengerCar;
-    this.elevatorFloorMovement = flightParisToLondon;
+    this.elevatorFloorMovement = elevatorFloorMovement;
     this.a4PaperUsage = a4PaperUsage;
   }
 }
