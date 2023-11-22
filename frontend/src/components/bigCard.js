@@ -5,7 +5,7 @@ const BigCard = ({ icon, name, value }) => {
   return (
     <CardContainer>
       <div>
-        <FontAwesomeIcon icon={icon} />
+        <FontAwesomeIcon icon={icon} className="icon" />
         <span>{name}</span>
       </div>
       <div>
@@ -20,6 +20,7 @@ const CardContainer = styled.div`
   padding: 3rem;
   background: #f8f8f8;
   border-radius: 1.5rem;
+
   box-shadow: inset 0.2rem 0.6rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
   > div:last-child {
     display: flex;
@@ -27,10 +28,10 @@ const CardContainer = styled.div`
     justify-content: space-around;
   }
   > div:first-child {
-    > i {
-      width: 100%;
-      height: 100%;
-      border: 10px solid red;
+    font-size: 1.2rem;
+    .icon {
+      color: #0fa958;
+      margin-right: 0.6rem;
     }
   }
 `;
