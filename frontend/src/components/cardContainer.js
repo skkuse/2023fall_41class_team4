@@ -54,7 +54,7 @@ const BoxWrapper = styled.div`
   margin: 2rem;
   background: white;
   border-radius: 2rem;
-  width: 55%;
+  width: 70vw;
   border-radius: 2rem;
   box-shadow: 1px 5px 5px 5px rgba(0, 0, 0, 0.2);
 `;
