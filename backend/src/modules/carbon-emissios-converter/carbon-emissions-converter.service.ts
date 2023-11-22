@@ -9,9 +9,11 @@ import { CarbonEmissionsConvertedValuesDto } from './carbon-emissions-converted-
 @Injectable()
 export class CarbonEmissionsConverterService {
   readonly SOUTH_KOREA_CI = 180;
-  readonly GRAMS_TO_KILOGRAMS = 1000;
-  readonly EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;
-  readonly PARIS_TO_LONDON_CARBON_EMISSIONS = 50000;
+  readonly TV_CARBON_EMISSION_PER_HOUR = 88;
+  readonly CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;
+  readonly KILO_WATT_TO_WATT = 1000;
+  readonly CARBON_EMISSIONS_OF_ELEVATOR_PER_FLOOR = 2;
+  readonly CARBON_EMISSIONS_OF_A4_PER_SHEET = 4.5;
 
   /**
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
@@ -20,33 +22,38 @@ export class CarbonEmissionsConverterService {
   getConvertedCarbonEmissionsValues(
     carbonEmission: number,
   ): CarbonEmissionsConvertedValuesDto {
-    // 1. Energy 계산
+    // 1. 전력 소모량 계산
     // kWh 단위
     const energy: number = carbonEmission / this.SOUTH_KOREA_CI;
 
-    // 2. Tree-months 계산
-    const treeMonths: number =
-      (carbonEmission / this.GRAMS_TO_KILOGRAMS / 11) * 12;
+    // 2. TV 시청 시간 계산
+    // 시간 단위
+    const tvWatchingTime: number =
+      carbonEmission / this.TV_CARBON_EMISSION_PER_HOUR;
 
-    // 3. passage car 계산
-    // passage car은 유럽을 기준으로 계산
+    // 3. 승용차 주행 거리 계산
     // km 단위
     const passageCar: number =
-      carbonEmission / this.EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE;
+      carbonEmission / this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE;
 
-    // 4. flight 계산
-    // flight는 paris to london을 기준으로 계산
-    // % 단위
-    const flight: number =
-      (carbonEmission / this.PARIS_TO_LONDON_CARBON_EMISSIONS) * 100;
+    // 4. 엘레베이터 층수 이동 계산
+    // ~개 단위
+    const elevatorFloorMovement: number =
+      (energy * this.KILO_WATT_TO_WATT) /
+      this.CARBON_EMISSIONS_OF_ELEVATOR_PER_FLOOR;
+
+    // 5. A4 용지 개수 계산
+    // ~장 단위
+    const a4PaperUsage: number =
+      carbonEmission / this.CARBON_EMISSIONS_OF_A4_PER_SHEET;
 
     return new CarbonEmissionsConvertedValuesDto(
       carbonEmission,
       energy,
-      treeMonths,
+      tvWatchingTime,
       passageCar,
-      flight,
-      0,
+      elevatorFloorMovement,
+      a4PaperUsage,
     );
   }
 }
