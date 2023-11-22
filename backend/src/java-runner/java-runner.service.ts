@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 export class JavaRunnerService {
   readonly tempDirectory = './temp';
   readonly fileName = 'Main';
-  readonly resultFileName = 'test.txt';
+  readonly resultFileName = 'result.txt';
 
   async run(): Promise<ExecutionResult> {
     const command = `/usr/bin/time -f \"%e %P %M\" -o ${this.resultFileName} java -cp ${this.tempDirectory} ${this.fileName}`;
