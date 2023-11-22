@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SmallCard = ({ icon, name, value }) => {
   return (
     <CardWrapper>
-      <div>{icon}</div>
+      <FontAwesomeIcon icon={icon} />
       <div>{value}</div>
       <div>{name}</div>
     </CardWrapper>
