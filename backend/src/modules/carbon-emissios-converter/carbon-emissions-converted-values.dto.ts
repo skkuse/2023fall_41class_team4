@@ -4,27 +4,31 @@
  * @author Min Ho CHO
  */
 export class CarbonEmissionsConvertedValuesDto {
-  readonly carbonFootPrint: string;
+  readonly carbonFootPrint: number;
 
-  readonly energy: string;
+  readonly energy: number;
 
-  readonly treeMonths: string;
+  readonly tvWatchingTime: number;
 
-  readonly passengerCar: string;
+  readonly passengerCarMileage: number;
 
-  readonly flightParisToLondon: string;
+  readonly elevatorFloorMovement: number;
+
+  readonly a4PaperUsage: number;
 
   constructor(
-    carbonFootPrint: string,
-    energy: string,
-    treeMonths: string,
-    passengerCar: string,
-    flightParisToLondon: string,
+    carbonFootPrint: number,
+    energy: number,
+    treeMonths: number,
+    passengerCar: number,
+    flightParisToLondon: number,
+    a4PaperUsage: number,
   ) {
     this.carbonFootPrint = carbonFootPrint;
     this.energy = energy;
-    this.treeMonths = treeMonths;
-    this.passengerCar = passengerCar;
-    this.flightParisToLondon = flightParisToLondon;
+    this.tvWatchingTime = treeMonths;
+    this.passengerCarMileage = passengerCar;
+    this.elevatorFloorMovement = flightParisToLondon;
+    this.a4PaperUsage = a4PaperUsage;
   }
 }

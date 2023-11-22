@@ -40,19 +40,13 @@ export class CarbonEmissionsConverterService {
     const flight: number =
       (carbonEmission / this.PARIS_TO_LONDON_CARBON_EMISSIONS) * 100;
 
-    // 정해진 출력에 맞춰서 string으로 변환
-    const formattedCarbonEmission: string = carbonEmission.toFixed(2);
-    const formattedEnergy: string = energy.toFixed(2);
-    const formattedTreeMonths: string = treeMonths.toFixed(2);
-    const formattedPassageCar: string = passageCar.toFixed(2);
-    const formattedFlight: string = flight.toFixed(2);
-
     return new CarbonEmissionsConvertedValuesDto(
-      `${formattedCarbonEmission} gCO2e`,
-      `${formattedEnergy} kWh`,
-      `${formattedTreeMonths} tree-months`,
-      `${formattedPassageCar} km`,
-      `${formattedFlight}%`,
+      carbonEmission,
+      energy,
+      treeMonths,
+      passageCar,
+      flight,
+      0,
     );
   }
 }
