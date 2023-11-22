@@ -14,10 +14,10 @@ const BigCard = ({ icon, name, value }) => {
 };
 
 const CardContainer = styled.div`
-  border: 1px solid orange;
   padding: 1rem;
   background: #f8f8f8;
   border-radius: 1.5rem;
+  box-shadow: inset 0.2rem 0.6rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
 `;
 
 export default BigCard;
