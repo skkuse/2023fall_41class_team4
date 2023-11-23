@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Execution } from '../db/execution.entity';
+import { ExecutionResult } from '../db/execution.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class CarbonService {
+export class CodeService {
   private readonly config;
 
   constructor(
-    @InjectRepository(Execution)
-    private executionRepository: Repository<Execution>,
+    @InjectRepository(ExecutionResult)
+    private executionRepository: Repository<ExecutionResult>,
     configService: ConfigService,
   ) {
     const cores = configService.get<number>('NUM_OF_CORES');
@@ -21,17 +21,17 @@ export class CarbonService {
   }
 
   async calculateEmission(executionId: number): Promise<number> {
-    const execution: Execution = await this.executionRepository.findOneBy({
+    const execution: ExecutionResult = await this.executionRepository.findOneBy({
       id: executionId,
     });
 
-    const cpuTime = execution.cpuTime / 60 / 60 / 1000; // ms to h
-    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
+    const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
+    const memUsage = execution.memUsage / 1024 / 1024;  // B to GB
 
     // TODO: p_m 이렇게 계산하는 거 맞는지?
     return (
       (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
-      cpuTime *
+      runtime *
       this.config.pue *
       0.001
     );
