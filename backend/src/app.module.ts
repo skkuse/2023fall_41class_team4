@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CarbonModule } from './carbon/carbon.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
+import { JavaCompilerService } from './java-compiler/java-compiler.service';
+import { JavaRunnerService } from './java-runner/java-runner.service';
 
 @Module({
   imports: [
@@ -17,6 +19,6 @@ import { TypeOrmConfigService } from './db/typeorm-config.service';
     CarbonModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JavaCompilerService, JavaRunnerService],
 })
 export class AppModule {}

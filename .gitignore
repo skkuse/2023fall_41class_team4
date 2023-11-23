@@ -12,6 +12,9 @@ node_modules/
 dist/
 build/
 
+# env
+.db_env
+
 # misc
 .DS_Store
 .env*
