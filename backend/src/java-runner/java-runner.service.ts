@@ -17,11 +17,11 @@ export class JavaRunnerService {
       encoding: 'utf-8',
     });
 
-    const [runtime, cpuUsage, memoryUsage] = resultFile
+    const [runtime, coreUsage, memUsage] = resultFile
       .toString()
       .trim()
       .split(' ');
 
-    return new ExecutionResult(runtime, cpuUsage.slice(0, -1), memoryUsage);
+    return new ExecutionResult(runtime, coreUsage.slice(0, -1), memUsage);
   }
 }
