@@ -19,4 +19,13 @@ export class AppController {
 
     return new CarbonEmissionResponseDto(1000, 30000, 120, 0.2, 15, 26000);
   }
+
+  @Post('carbon-emissions/test')
+  @ApiOperation({ summary: '탄소 배출량 생성 API' })
+  @ApiCreatedResponse({ type: CarbonEmissionResponseDto })
+  async calculateEmissionsTest(
+    @Body() body: CarbonEmissionRequestDto,
+  ): Promise<number> {
+    return await this.appService.calculateEmission(body.code);
+  }
 }
