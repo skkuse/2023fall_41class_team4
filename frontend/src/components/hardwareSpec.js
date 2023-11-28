@@ -89,7 +89,7 @@ const TwoPart = styled.div`
 
 const BoxContainer = styled.div`
   background: white;
-  width: 55%;
+  width: 70vw;
   display: flex;
   justify-content: center;
   h3 {
@@ -100,6 +100,8 @@ const BoxContainer = styled.div`
   }
   > div:last-child {
     margin-left: 0;
+    border-left: 1px solid darkgray;
+    padding-left: 2.5rem;
   }
   border-radius: 2rem;
   box-shadow: 1px 5px 5px 5px rgba(0, 0, 0, 0.2);
