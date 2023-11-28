@@ -17,7 +17,9 @@ const BigCard = ({ icon, name, value }) => {
 };
 
 const CardContainer = styled.div`
-  padding: 3rem;
+  width: 100%;
+  margin: 2rem 1.5rem 0 1.5rem;
+  padding: 3rem 0;
   background: #f8f8f8;
   border-radius: 1.5rem;
   box-shadow: inset 0.2rem 0.6rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
@@ -37,6 +39,9 @@ const CardContainer = styled.div`
     align-items: center;
     justify-content: space-around;
   }
+  &:hover {
+    background: rgb(56, 201, 114, 0.2);
+  }
 `;
 const ValueBox = styled.div`
   font-size: 3rem;
@@ -44,7 +49,7 @@ const ValueBox = styled.div`
   margin-left: 1.8rem;
 `;
 const UnitBox = styled.div`
-  color: darkgray;
+  color: #828282;
   font-size: 1rem;
   margin-left: 0.4rem;
 `;
