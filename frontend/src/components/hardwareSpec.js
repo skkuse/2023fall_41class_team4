@@ -14,7 +14,7 @@ const response = {
   tv: "3h",
   car: "10km",
   elevator: "20층",
-  a4: 30,
+  a4: "30장",
 };
 
 const HardwareSpec = () => {
