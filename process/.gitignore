@@ -1,4 +1,7 @@
+# .exe file
 *
 !*.*
+
 *.class
 *.txt
+*.java
