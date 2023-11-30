@@ -5,6 +5,7 @@ import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const JavaEditor = () => {
+    const defaultValue = "// write down your code here";
     const editorRef = useRef(null);
 
     function handleEditorDidMount(editor, monaco) {
@@ -15,6 +16,9 @@ const JavaEditor = () => {
     function handleClick() {
         alert(editorRef.current.getValue());
     }
+    function handleRefresh() {
+        editorRef.current.setValue(defaultValue);
+    }
 
     return (
         <>
@@ -23,7 +27,7 @@ const JavaEditor = () => {
                     width="60vw"
                     height="50vh"
                     defaultLanguage="java"
-                    defaultValue="// write down your code here"
+                    defaultValue={defaultValue}
                     options={{
                         theme: "vs-light",
                         minimap: {
@@ -36,7 +40,7 @@ const JavaEditor = () => {
             </EditorContainer>
             <BtnContainer>
                 <SubmitBtn onClick={handleClick}>Submit</SubmitBtn>
-                <RefreshBtn onClick={() => editorRef.current.setValue("")}>
+                <RefreshBtn onClick={handleRefresh}>
                     <FontAwesomeIcon icon={faRefresh} className="icon" />
                 </RefreshBtn>
             </BtnContainer>
