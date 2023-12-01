@@ -4,12 +4,14 @@ import Footer from "./components/footer";
 import HowItWorks from "./components/howItWorks";
 import styled from "styled-components";
 import HardwareSpec from "./components/hardwareSpec";
+import JavaEditor from "./components/JavaEditor";
 import CardComponent from "./components/cardContainer";
-//response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
 
 function App() {
+  //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
   return (
     <>
+      <JavaEditor />
       <Header />
       <Wrapper>
         <HardwareSpec />
@@ -22,11 +24,11 @@ function App() {
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f8f8f8;
 `;
 
 export default App;
