@@ -74,7 +74,12 @@ const JavaEditor = () => {
                 />
             </EditorContainer>
             <BtnContainer>
-                <SubmitBtn onClick={handleClick}>Submit</SubmitBtn>
+                <SubmitBtn
+                    onClick={handleClick}
+                    $onProgress={status === Status.PROGRESS}
+                >
+                    Submit
+                </SubmitBtn>
                 <RefreshBtn onClick={handleRefresh}>
                     <FontAwesomeIcon icon={faRefresh} className="icon" />
                 </RefreshBtn>
@@ -107,7 +112,7 @@ const SubmitBtn = styled.button`
     margin-bottom: 4rem;
     border-radius: 15px;
     border: none;
-    background: #38c972;
+    background: ${(props) => (props.$onProgress ? "gray" : "#38C972")};
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: #f8f8f8;
     font-family: Inter;
