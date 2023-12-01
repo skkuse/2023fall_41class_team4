@@ -64,7 +64,7 @@ const HowItWorksContainer = styled.div`
   background: white
   color: white;
   padding: 2rem;
-  width: 55%;
+  width: 70vw;
   display: flex;
   flex-direction: column;
   align-items: center;
