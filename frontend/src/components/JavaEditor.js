@@ -1,12 +1,39 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import styled from "styled-components";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// status 텍스트 변경을 위한 상수
+const Status = {
+    WAITING: "WAITING",
+    PROGRESS: "PROGRESS",
+    SUCCESS: "SUCCESS",
+    BUILDERROR: "BUILDERROR",
+    COMPILEERROR: "COMPILEERROR",
+};
+
 const JavaEditor = () => {
     const defaultValue = "// write down your code here";
     const editorRef = useRef(null);
+
+    const [status, setStatus] = useState(Status.WAITING);
+
+    function getStatusText(status) {
+        switch (status) {
+            case Status.WAITING:
+                return "코드를 입력해주세요.";
+
+            case Status.PROGRESS:
+                return "코드를 실행중입니다.";
+
+            case Status.SUCCESS:
+                return "코드가 성공적으로 컴파일 되었습니다!";
+
+            default:
+                return "코드를 입력해주세요.";
+        }
+    }
 
     function handleEditorDidMount(editor, monaco) {
         // set editorRef.current to editor
@@ -14,7 +41,13 @@ const JavaEditor = () => {
     }
 
     function handleClick() {
-        alert(editorRef.current.getValue());
+        // send code to backend
+        setStatus(Status.PROGRESS);
+        setTimeout(() => {
+            if (true) {
+                setStatus(Status.SUCCESS);
+            }
+        }, 2000);
     }
     function handleRefresh() {
         editorRef.current.setValue(defaultValue);
@@ -43,6 +76,9 @@ const JavaEditor = () => {
                 <RefreshBtn onClick={handleRefresh}>
                     <FontAwesomeIcon icon={faRefresh} className="icon" />
                 </RefreshBtn>
+                <StatusText $status={status}>
+                    {getStatusText(status)}
+                </StatusText>
             </BtnContainer>
         </>
     );
@@ -85,6 +121,7 @@ const RefreshBtn = styled.button`
     height: 3rem;
     margin-bottom: 4rem;
     margin-left: 1rem;
+    margin-right: 1rem;
     border-radius: 15px;
     border: none;
     background: #ffffff;
@@ -95,6 +132,16 @@ const RefreshBtn = styled.button`
     font-style: normal;
     font-weight: 800;
     line-height: normal;
+`;
+
+const StatusText = styled.p`
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: Inter;
+    color: ${(props) =>
+        props.$status === Status.BUILDERROR || Status.COMPILEERROR
+            ? "#38C972"
+            : "#C94138"};
 `;
 
 export default JavaEditor;
