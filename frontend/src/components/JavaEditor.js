@@ -67,6 +67,8 @@ const JavaEditor = () => {
                             enabled: false,
                         },
                         fontSize: 14,
+                        readOnly: status === Status.PROGRESS ? true : false,
+                        readOnlyMessage: { value: "코드를 실행중입니다." },
                     }}
                     onMount={handleEditorDidMount}
                 />
