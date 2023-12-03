@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
-import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 
 @Controller('api')
 @ApiTags('탄소 배출량 API')
@@ -17,10 +17,10 @@ export class AppController {
 
   @Post('carbon-emissions')
   @ApiOperation({ summary: '탄소 배출량 생성 API' })
-  @ApiCreatedResponse({ type: CarbonEmissionConvertedResultDto })
+  @ApiCreatedResponse({ type: CarbonEmissionResponseDto })
   async calculateEmissions(
     @Body() body: CarbonEmissionRequestDto,
-  ): Promise<CarbonEmissionConvertedResultDto> {
+  ): Promise<CarbonEmissionResponseDto> {
     try {
       return await this.appService.calculateEmission(body.code);
     } catch (error) {
