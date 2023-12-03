@@ -1,48 +1,39 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CarbonEmissionConvertedResultDto } from './carbon-emission-converted-result.dto';
 
-/**
- * @file carbon-emissions-converted-values.dto.ts
- * @description 탄소 배출량을 일상생활에서의 각종 사용량으로 표현한 값들을 표현하는 dto 클래스입니다.
- * @author Min Ho CHO
- */
 export class CarbonEmissionResponseDto {
-  @ApiProperty({ description: '탄소 배출량', example: 1000 })
-  carbonFootPrint: number;
-
-  @ApiProperty({ description: '전력 소모량', example: 30000 })
-  readonly energy: number;
-
-  @ApiProperty({ description: 'TV 탄소 배출량과의 비교값', example: 120 })
-  readonly tvWatchingTime: number;
-
-  @ApiProperty({ description: '승용차 탄소 배출량과의 비교값', example: 0.2 })
-  readonly passengerCarMileage: number;
+  @ApiProperty({
+    description: '실행 결과',
+    example:
+      'OK (성공), COMPILE_ERROR (컴파일 에러), RUNTIME_ERROR (런타임 에러)',
+  })
+  readonly status: string;
 
   @ApiProperty({
-    description: '엘레베이터 탄소 배출량과의 비교값',
-    example: 15,
+    description: '탄소 배출량 (실행 실패 시 null)',
+    example: 1000,
   })
-  readonly elevatorFloorMovement: number;
+  readonly carbonFootPrint: number;
 
   @ApiProperty({
-    description: 'A4 용지 탄소 배출량과의 비교값',
-    example: 26000,
+    description: '실생활 사용량 (실행 실패 시 null)',
+    example: new CarbonEmissionConvertedResultDto(
+      1000,
+      30000,
+      120,
+      0.2,
+      15,
+      26000,
+    ),
   })
-  readonly a4PaperUsage: number;
+  readonly convertedResult: CarbonEmissionConvertedResultDto;
 
   constructor(
-    carbonFootPrint: number,
-    energy: number,
-    tvWatchingTime: number,
-    passengerCar: number,
-    elevatorFloorMovement: number,
-    a4PaperUsage: number,
+    status: string,
+    convertedResult: CarbonEmissionConvertedResultDto,
   ) {
-    this.carbonFootPrint = carbonFootPrint;
-    this.energy = energy;
-    this.tvWatchingTime = tvWatchingTime;
-    this.passengerCarMileage = passengerCar;
-    this.elevatorFloorMovement = elevatorFloorMovement;
-    this.a4PaperUsage = a4PaperUsage;
+    this.status = status;
+    this.carbonFootPrint = convertedResult.carbonFootPrint;
+    this.convertedResult = convertedResult;
   }
 }

@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
-import { CarbonEmissionResponseDto } from 'src/dto/carbon-emission-response.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 
 @Controller('api')
 @ApiTags('탄소 배출량 API')
