@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ExecutionResult } from './execution-result.domain';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ExecutionResult } from '../db/execution-result.entity';
+import { Repository } from 'typeorm';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
+import { ExecutionStatus } from 'src/db/execution-status.enum';
+import { Code } from 'src/db/code.entity';
 
 @Injectable()
 export class JavaRunnerService {
@@ -9,19 +13,36 @@ export class JavaRunnerService {
   readonly fileName = 'Main';
   readonly resultFileName = 'result.txt';
 
-  async run(): Promise<ExecutionResult> {
+  constructor(
+    @InjectRepository(ExecutionResult)
+    private executionRepository: Repository<ExecutionResult>,
+  ) {}
+
+  async run(code: Code): Promise<ExecutionResult> {
     const command = `/usr/bin/time -f \"%e %P %M\" -o ${this.resultFileName} java -cp ${this.tempDirectory} ${this.fileName}`;
     execSync(command);
+
+    // TODO: handle when run failed
+    // TODO: handle when compile failed
 
     const resultFile = readFileSync(`${this.resultFileName}`, {
       encoding: 'utf-8',
     });
 
-    const [runtime, cpuUsage, memoryUsage] = resultFile
+    const [runtime, coreUsage, memUsage] = resultFile
       .toString()
       .trim()
       .split(' ');
 
-    return new ExecutionResult(runtime, cpuUsage.slice(0, -1), memoryUsage);
+    const executionResult = this.executionRepository.create({
+      code,
+      status: ExecutionStatus.SUCCESS,
+      runtime: Number(runtime),
+      coreUsage: Number(coreUsage.slice(0, -1)),
+      memUsage: Number(memUsage),
+    });
+    await this.executionRepository.save(executionResult);
+
+    return executionResult;
   }
 }
