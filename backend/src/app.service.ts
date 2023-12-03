@@ -3,9 +3,13 @@ import { JavaCompilerService } from './java-compiler/java-compiler.service';
 import { JavaRunnerService } from './java-runner/java-runner.service';
 import { CodeService } from './code/code.service';
 import { ConverterService } from './converter/converter.service';
+import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 
 @Injectable()
 export class AppService {
+  readonly OK_STATUS = 'OK';
+  readonly COMPILE_ERROR_STATUS = 'COMPILE_ERROR';
+  readonly RUNTIME_ERROR_STATUS = 'RUNTIME_ERROR';
   constructor(
     private readonly codeService: CodeService,
     private readonly javaCompilerService: JavaCompilerService,
@@ -22,6 +26,9 @@ export class AppService {
     const emission = await this.codeService.calculateEmission(executionResult);
     await this.codeService.updateEmission({ id: code.id, emission: emission });
 
-    return this.converterService.convertCarbonEmission(emission);
+    return new CarbonEmissionResponseDto(
+      this.OK_STATUS,
+      this.converterService.convertCarbonEmission(emission),
+    );
   }
 }
