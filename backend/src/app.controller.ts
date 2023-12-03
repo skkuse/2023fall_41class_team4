@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  InternalServerErrorException,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { CarbonEmissionResponseDto } from './carbon-emission-response.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -15,7 +21,15 @@ export class AppController {
   async calculateEmissions(
     @Body() body: CarbonEmissionRequestDto,
   ): Promise<CarbonEmissionResponseDto> {
-    await this.appService.calculateEmission(body.code);
+    try {
+      await this.appService.calculateEmission(body.code);
+    } catch (error) {
+      if (error instanceof UnprocessableEntityException) {
+        throw new UnprocessableEntityException(error.message);
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
 
     return new CarbonEmissionResponseDto(1000, 30000, 120, 0.2, 15, 26000);
   }
