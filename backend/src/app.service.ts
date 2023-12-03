@@ -1,19 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { JavaCompilerService } from './java-compiler/java-compiler.service';
 import { JavaRunnerService } from './java-runner/java-runner.service';
+import { CodeService } from './code/code.service';
+import { ConverterService } from './converter/converter.service';
+import { CarbonEmissionsConvertedValuesDto } from './converter/carbon-emissions-converted-values.dto';
 
 @Injectable()
 export class AppService {
   constructor(
-    private readonly javaRunnerService: JavaRunnerService,
+    private readonly codeService: CodeService,
     private readonly javaCompilerService: JavaCompilerService,
+    private readonly javaRunnerService: JavaRunnerService,
+    private readonly converterService: ConverterService,
   ) {}
 
-  async calculateEmission(code: string) {
+  async calculateEmission(
+    input: string,
+  ): Promise<CarbonEmissionsConvertedValuesDto> {
+    const code = await this.codeService.saveCode(input);
+    // FIXME: compile result 넘겨주도록 수정
     await this.javaCompilerService.compile(code);
+    const executionResult = await this.javaRunnerService.run(code);
 
-    const executionResult = await this.javaRunnerService.run();
+    const emission = await this.codeService.calculateEmission(executionResult);
+    await this.codeService.updateEmission({ id: code.id, emission: emission });
 
-    // TODO carbon calculator 호출
+    return this.converterService.getConvertedCarbonEmissionsValues(emission);
   }
 }
