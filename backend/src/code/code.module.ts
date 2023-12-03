@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CodeService } from './code.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ExecutionResult } from '../db/execution.entity';
+import { Code } from 'src/db/code.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ExecutionResult])],
+  imports: [TypeOrmModule.forFeature([Code])],
   providers: [CodeService],
-  exports: [CodeService]
+  exports: [CodeService],
 })
 export class CodeModule {}

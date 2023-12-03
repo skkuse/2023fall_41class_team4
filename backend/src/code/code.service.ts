@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ExecutionResult } from '../db/execution.entity';
+import { ExecutionResult } from '../db/execution-result.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Code } from 'src/db/code.entity';
 
 @Injectable()
 export class CodeService {
   private readonly config;
 
   constructor(
-    @InjectRepository(ExecutionResult)
-    private executionRepository: Repository<ExecutionResult>,
+    @InjectRepository(Code)
+    private codeRepository: Repository<Code>,
     configService: ConfigService,
   ) {
     const cores = configService.get<number>('NUM_OF_CORES');
@@ -20,20 +21,24 @@ export class CodeService {
     this.config = { powerOfCores: cores * power, pue };
   }
 
-  async calculateEmission(executionId: number): Promise<number> {
-    const execution: ExecutionResult = await this.executionRepository.findOneBy({
-      id: executionId,
-    });
+  async saveCode(input: string): Promise<Code> {
+    const data = this.codeRepository.create({ code: input });
+    return await this.codeRepository.save(data);
+  }
 
+  async calculateEmission(execution: ExecutionResult): Promise<number> {
     const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
-    const memUsage = execution.memUsage / 1024 / 1024;  // B to GB
+    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
 
-    // TODO: p_m 이렇게 계산하는 거 맞는지?
     return (
       (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
       runtime *
       this.config.pue *
       0.001
     );
+  }
+
+  async updateEmission(code: Partial<Code>) {
+    await this.codeRepository.update({ id: code.id }, { ...code });
   }
 }
