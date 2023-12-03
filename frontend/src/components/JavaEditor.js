@@ -132,7 +132,7 @@ const SubmitBtn = styled.button`
   font-weight: 800;
   line-height: normal;
   &:hover {
-    cursor: ${(props) => (props.$onProgress ? "" : "pointer")};
+    cursor: ${(props) => (props.$onProgress ? "wait" : "pointer")};
   }
 `;
 
