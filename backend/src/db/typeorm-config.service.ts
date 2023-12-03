@@ -14,7 +14,7 @@ export class TypeOrmConfigService {
       username: this.config.get('DATABASE_USER'),
       password: this.config.get('DATABASE_PASS'),
       database: this.config.get('DATABASE_NAME'),
-      entities: [],
+      entities: [__dirname + '/*.entity.{js,ts}'],
       synchronize: true,
     };
 
