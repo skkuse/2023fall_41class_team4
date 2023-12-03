@@ -8,7 +8,7 @@ import { CarbonEmissionResponseDto } from 'src/dto/carbon-emission-response.dto'
  */
 @Injectable()
 export class ConverterService {
-  readonly SOUTH_KOREA_CI = 180;
+  readonly SOUTH_KOREA_CI = 436;
   readonly TV_CARBON_EMISSION_PER_HOUR = 88;
   readonly CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;
   readonly KILO_WATT_TO_WATT = 1000;
