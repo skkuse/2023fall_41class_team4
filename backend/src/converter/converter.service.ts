@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CarbonEmissionsConvertedValuesDto } from './carbon-emissions-converted-values.dto';
+import { CarbonEmissionResponseDto } from 'src/dto/carbon-emission-response.dto';
 
 /**
  * @file carbon-emissions-converter.service.ts
@@ -19,9 +19,7 @@ export class ConverterService {
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
    * @param carbonEmission 탄소 배출량 (gCo2e 단위)
    */
-  getConvertedCarbonEmissionsValues(
-    carbonEmission: number,
-  ): CarbonEmissionsConvertedValuesDto {
+  convertCarbonEmission(carbonEmission: number): CarbonEmissionResponseDto {
     // 1. 전력 소모량 계산
     // kWh 단위
     const energy: number = carbonEmission / this.SOUTH_KOREA_CI;
@@ -47,7 +45,7 @@ export class ConverterService {
     const a4PaperUsage: number =
       carbonEmission / this.CARBON_EMISSIONS_OF_A4_PER_SHEET;
 
-    return new CarbonEmissionsConvertedValuesDto(
+    return new CarbonEmissionResponseDto(
       carbonEmission,
       energy,
       tvWatchingTime,
