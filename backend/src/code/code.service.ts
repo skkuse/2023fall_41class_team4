@@ -16,9 +16,10 @@ export class CodeService {
   ) {
     const cores = configService.get<number>('NUM_OF_CORES');
     const power = configService.get<number>('POWER_OF_CORE');
+    const ci = configService.get<number>('CARBON_INTENSITY');
 
     const pue = configService.get<number>('PUE');
-    this.config = { powerOfCores: cores * power, pue };
+    this.config = { powerOfCores: cores * power, pue, ci };
   }
 
   async saveCode(input: string): Promise<Code> {
@@ -40,7 +41,8 @@ export class CodeService {
       (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
       runtime *
       this.config.pue *
-      0.001
+      0.001 *
+      this.config.ci
     );
   }
 

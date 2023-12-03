@@ -11,4 +11,5 @@ then
   echo "NUM_OF_CORES=1" >> backend/.env
   echo "POWER_OF_CORE=1" >> backend/.env
   echo "PUE=1.2" >> backend/.env
+  echo "CARBON_INTENSITY=436" >> backend/.env
 fi
