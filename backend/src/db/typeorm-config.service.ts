@@ -16,8 +16,8 @@ export class TypeOrmConfigService {
       database: this.config.get('DATABASE_NAME'),
       entities: [],
       synchronize: true,
-    }
-    
-    return options
+    };
+
+    return options;
   }
 }
