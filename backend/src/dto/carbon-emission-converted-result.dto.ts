@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
  * @description 탄소 배출량을 일상생활에서의 각종 사용량으로 표현한 값들을 표현하는 dto 클래스입니다.
  * @author Min Ho CHO
  */
-export class CarbonEmissionResponseDto {
+export class CarbonEmissionConvertedResultDto {
   @ApiProperty({ description: '탄소 배출량', example: 1000 })
   carbonFootPrint: number;
 
