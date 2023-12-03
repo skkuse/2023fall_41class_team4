@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CarbonModule } from './carbon/carbon.module';
+import { CodeModule } from './code/code.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
-import { JavaCompilerService } from './java-compiler/java-compiler.service';
-import { JavaRunnerService } from './java-runner/java-runner.service';
+import { JavaRunnerModule } from './java-runner/java-runner.module';
+import { JavaCompilerModule } from './java-compiler/java-compiler.module';
 
 @Module({
   imports: [
@@ -14,11 +14,13 @@ import { JavaRunnerService } from './java-runner/java-runner.service';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useClass: TypeOrmConfigService
+      useClass: TypeOrmConfigService,
     }),
-    CarbonModule,
+    CodeModule,
+    JavaCompilerModule,
+    JavaRunnerModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JavaCompilerService, JavaRunnerService],
+  providers: [AppService],
 })
 export class AppModule {}
