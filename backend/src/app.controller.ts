@@ -10,12 +10,12 @@ import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 
-@Controller('api')
+@Controller()
 @ApiTags('탄소 배출량 API')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post('carbon-emissions')
+  @Post('carbon-emission')
   @ApiOperation({ summary: '탄소 배출량 생성 API' })
   @ApiCreatedResponse({ type: CarbonEmissionResponseDto })
   async calculateEmissions(
@@ -27,7 +27,7 @@ export class AppController {
       if (error instanceof UnprocessableEntityException) {
         throw new UnprocessableEntityException(error.message);
       } else {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException(error.message);
       }
     }
   }
