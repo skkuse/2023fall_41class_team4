@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CarbonEmissionConvertedResultDto } from './carbon-emission-converted-result.dto';
+import { CarbonEmissionConvertedResultResponseDtoDto } from './carbon-emission-converted-result-response.dto';
 
 export class CarbonEmissionResponseDto {
   @ApiProperty({
@@ -17,16 +18,11 @@ export class CarbonEmissionResponseDto {
 
   @ApiProperty({
     description: '실생활 사용량 (실행 실패 시 null)',
-    example: new CarbonEmissionConvertedResultDto(
-      1000,
-      30000,
-      120,
-      0.2,
-      15,
-      26000,
+    example: new CarbonEmissionConvertedResultResponseDtoDto(
+      new CarbonEmissionConvertedResultDto(1000, 30000, 120, 0.2, 15, 26000),
     ),
   })
-  readonly convertedResult: CarbonEmissionConvertedResultDto;
+  readonly convertedResult: CarbonEmissionConvertedResultResponseDtoDto;
 
   constructor(
     status: string,
@@ -34,6 +30,8 @@ export class CarbonEmissionResponseDto {
   ) {
     this.status = status;
     this.carbonFootPrint = convertedResult.carbonFootPrint;
-    this.convertedResult = convertedResult;
+    this.convertedResult = new CarbonEmissionConvertedResultResponseDtoDto(
+      convertedResult,
+    );
   }
 }
