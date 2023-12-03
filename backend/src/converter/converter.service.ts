@@ -7,7 +7,7 @@ import { CarbonEmissionsConvertedValuesDto } from './carbon-emissions-converted-
  * @author Min Ho CHO
  */
 @Injectable()
-export class CarbonEmissionsConverterService {
+export class ConverterService {
   readonly SOUTH_KOREA_CI = 180;
   readonly TV_CARBON_EMISSION_PER_HOUR = 88;
   readonly CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;

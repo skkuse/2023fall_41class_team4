@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm-config.service';
 import { JavaRunnerModule } from './java-runner/java-runner.module';
 import { JavaCompilerModule } from './java-compiler/java-compiler.module';
+import { ConverterModule } from './converter/converter.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { JavaCompilerModule } from './java-compiler/java-compiler.module';
     CodeModule,
     JavaCompilerModule,
     JavaRunnerModule,
+    ConverterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
