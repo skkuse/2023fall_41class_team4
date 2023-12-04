@@ -9,10 +9,11 @@ RUN apt-get update && \
 
 RUN apt-get install time
 
-RUN npm install
+RUN npm install -g pnpm
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
 CMD [ "node", "dist/main.js" ]
