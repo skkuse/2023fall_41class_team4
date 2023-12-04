@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Emission } from '../db/emission.entity';
 
 /**
  * @file carbon-emissions-converter.service.ts
@@ -8,17 +11,59 @@ import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-conver
  */
 @Injectable()
 export class ConverterService {
-  readonly GCO2E_TO_MICRO_GCO2 = 1000000;
+  TV_CARBON_EMISSION_PER_HOUR: number;
+  CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE: number;
+  SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E: number;
+  APPLE_PRODUCTION_PER_GCO2E: number;
+  readonly GCO2E_TO_MICRO_GCO2 = 1_000_000;
   readonly SOUTH_KOREA_CI = 436;
-  readonly KILOWATT_TO_MICROWATT = 1000000000;
-  readonly TV_CARBON_EMISSION_PER_HOUR = 88;
-  readonly HOUR_TO_MICROSECOND = 3.6 * 1000000000;
-  readonly CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;
-  readonly KILOMETER_TO_MICROMETER = 1000000000;
-  readonly SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E = 1 / 1.53;
-  readonly KILOMETER_TO_MILLIMETER = 1000000;
-  readonly APPLE_PRODUCTION_PER_GCO2E = 2.5;
-  readonly GRAM_TO_MICRO_GRAM = 1000000;
+  readonly KILOWATT_TO_MICROWATT = 1_000_000_000;
+  readonly HOUR_TO_MICROSECOND = 3.6 * 1_000_000_000;
+  readonly KILOMETER_TO_MICROMETER = 1_000_000_000;
+  readonly KILOMETER_TO_MILLIMETER = 1_000_000;
+  readonly GRAM_TO_MICRO_GRAM = 1_000_000;
+
+  constructor(
+    @InjectRepository(Emission)
+    private emissionRepository: Repository<Emission>,
+  ) {
+    this.init(emissionRepository);
+  }
+
+  async init(emissionRepository: Repository<Emission>) {
+    this.TV_CARBON_EMISSION_PER_HOUR = (
+      await this.getEmission('TV_CARBON_EMISSION_PER_HOUR', emissionRepository)
+    ).emission;
+    this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = (
+      await this.getEmission(
+        'CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE',
+        emissionRepository,
+      )
+    ).emission;
+    this.SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E = (
+      await this.getEmission(
+        'SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E',
+        emissionRepository,
+      )
+    ).emission;
+    this.APPLE_PRODUCTION_PER_GCO2E = (
+      await this.getEmission('APPLE_PRODUCTION_PER_GCO2E', emissionRepository)
+    ).emission;
+  }
+
+  async getEmission(
+    name: string,
+    emissionRepository: Repository<Emission>,
+  ): Promise<Emission> {
+    return await emissionRepository.findOne({
+      select: {
+        emission: true,
+      },
+      where: {
+        name: name,
+      },
+    });
+  }
 
   /**
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
@@ -27,7 +72,7 @@ export class ConverterService {
   convertCarbonEmission(
     carbonEmission: number,
   ): CarbonEmissionConvertedResultDto {
-    // 1. 탄소 배출량 계싼
+    // 1. 탄소 배출량 계산
     // µgCO2e 단위
     const convertedCarbonEmission: number =
       carbonEmission * this.GCO2E_TO_MICRO_GCO2;
@@ -56,7 +101,7 @@ export class ConverterService {
       this.SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E *
       this.KILOMETER_TO_MILLIMETER;
 
-    // 6. 사과 생산량
+    // 6. 사과 생산량 계산
     // µg 단위
     const appleProduction: number =
       carbonEmission *
