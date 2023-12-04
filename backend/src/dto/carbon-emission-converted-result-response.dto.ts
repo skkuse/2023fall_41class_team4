@@ -34,11 +34,15 @@ export class CarbonEmissionConvertedResultResponseDtoDto {
   readonly a4PaperUsage: string;
 
   constructor(convertedResult: CarbonEmissionConvertedResultDto) {
-    this.carbonFootPrint = convertedResult.carbonFootPrint + 'gCO2e';
-    this.energy = convertedResult.energy + 'kWh';
-    this.tvWatchingTime = convertedResult.tvWatchingTime + '시간';
-    this.passengerCarMileage = convertedResult.passengerCarMileage + 'km';
-    this.elevatorFloorMovement = convertedResult.elevatorFloorMovement + '층';
-    this.a4PaperUsage = convertedResult.a4PaperUsage + '장';
+    this.carbonFootPrint =
+      convertedResult.carbonFootPrint.toExponential(2) + 'gCO2e';
+    this.energy = convertedResult.energy.toExponential(2) + 'kWh';
+    this.tvWatchingTime =
+      convertedResult.tvWatchingTime.toExponential(2) + '시간';
+    this.passengerCarMileage =
+      convertedResult.passengerCarMileage.toExponential(2) + 'km';
+    this.elevatorFloorMovement =
+      convertedResult.elevatorFloorMovement.toExponential(2) + '층';
+    this.a4PaperUsage = convertedResult.a4PaperUsage.toExponential(2) + '장';
   }
 }
