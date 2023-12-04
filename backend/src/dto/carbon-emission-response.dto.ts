@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CarbonEmissionConvertedResultDto } from './carbon-emission-converted-result.dto';
-import { CarbonEmissionConvertedResultResponseDtoDto } from './carbon-emission-converted-result-response.dto';
+import { CarbonEmissionConvertedResultResponseDto } from './carbon-emission-converted-result-response.dto';
 
 export class CarbonEmissionResponseDto {
   @ApiProperty({
@@ -12,19 +12,24 @@ export class CarbonEmissionResponseDto {
 
   @ApiProperty({
     description: '탄소 배출량 및 실생활 사용량 (실행 실패 시 null)',
-    example: new CarbonEmissionConvertedResultResponseDtoDto(
-      new CarbonEmissionConvertedResultDto(1000, 30000, 120, 0.2, 15, 26000),
+    example: new CarbonEmissionConvertedResultResponseDto(
+      new CarbonEmissionConvertedResultDto(
+        3.01,
+        6.91,
+        34.32,
+        17.21,
+        15.71,
+        26.43,
+      ),
     ),
   })
-  readonly result: CarbonEmissionConvertedResultResponseDtoDto;
+  readonly result: CarbonEmissionConvertedResultResponseDto;
 
   constructor(
     status: string,
     convertedResult: CarbonEmissionConvertedResultDto,
   ) {
     this.status = status;
-    this.result = new CarbonEmissionConvertedResultResponseDtoDto(
-      convertedResult,
-    );
+    this.result = new CarbonEmissionConvertedResultResponseDto(convertedResult);
   }
 }

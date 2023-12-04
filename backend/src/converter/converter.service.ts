@@ -8,12 +8,17 @@ import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-conver
  */
 @Injectable()
 export class ConverterService {
+  readonly GCO2E_TO_MICRO_GCO2 = 1000000;
   readonly SOUTH_KOREA_CI = 436;
+  readonly KILOWATT_TO_MICROWATT = 1000000000;
   readonly TV_CARBON_EMISSION_PER_HOUR = 88;
+  readonly HOUR_TO_MICROSECOND = 3.6 * 1000000000;
   readonly CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = 175;
-  readonly KILO_WATT_TO_WATT = 1000;
-  readonly CARBON_EMISSIONS_OF_ELEVATOR_PER_FLOOR = 2;
-  readonly CARBON_EMISSIONS_OF_A4_PER_SHEET = 4.5;
+  readonly KILOMETER_TO_MICROMETER = 1000000000;
+  readonly SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E = 1 / 1.53;
+  readonly KILOMETER_TO_MILLIMETER = 1000000;
+  readonly APPLE_PRODUCTION_PER_GCO2E = 2.5;
+  readonly GRAM_TO_MICRO_GRAM = 1000000;
 
   /**
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
@@ -22,38 +27,49 @@ export class ConverterService {
   convertCarbonEmission(
     carbonEmission: number,
   ): CarbonEmissionConvertedResultDto {
-    // 1. 전력 소모량 계산
-    // kWh 단위
-    const energy: number = carbonEmission / this.SOUTH_KOREA_CI;
+    // 1. 탄소 배출량 계싼
+    // µgCO2e 단위
+    const convertedCarbonEmission: number =
+      carbonEmission * this.GCO2E_TO_MICRO_GCO2;
 
-    // 2. TV 시청 시간 계산
-    // 시간 단위
+    // 2. 전력 소모량 계산
+    // µWh 단위
+    const energy: number =
+      (carbonEmission / this.SOUTH_KOREA_CI) * this.KILOWATT_TO_MICROWATT;
+
+    // 3. TV 시청 시간 계산
+    // μs 단위
     const tvWatchingTime: number =
-      carbonEmission / this.TV_CARBON_EMISSION_PER_HOUR;
+      (carbonEmission / this.TV_CARBON_EMISSION_PER_HOUR) *
+      this.HOUR_TO_MICROSECOND;
 
-    // 3. 승용차 주행 거리 계산
-    // km 단위
+    // 4. 승용차 주행 거리 계산
+    // µm 단위
     const passageCar: number =
-      carbonEmission / this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE;
+      (carbonEmission / this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE) *
+      this.KILOMETER_TO_MICROMETER;
 
-    // 4. 엘레베이터 층수 이동 계산
-    // ~개 단위
-    const elevatorFloorMovement: number =
-      (energy * this.KILO_WATT_TO_WATT) /
-      this.CARBON_EMISSIONS_OF_ELEVATOR_PER_FLOOR;
+    // 5. 지하철 이동 거리 계산
+    // mm 단위
+    const subwayTravelDistance: number =
+      carbonEmission *
+      this.SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E *
+      this.KILOMETER_TO_MILLIMETER;
 
-    // 5. A4 용지 개수 계산
-    // ~장 단위
-    const a4PaperUsage: number =
-      carbonEmission / this.CARBON_EMISSIONS_OF_A4_PER_SHEET;
+    // 6. 사과 생산량
+    // µg 단위
+    const appleProduction: number =
+      carbonEmission *
+      this.APPLE_PRODUCTION_PER_GCO2E *
+      this.GRAM_TO_MICRO_GRAM;
 
     return new CarbonEmissionConvertedResultDto(
-      carbonEmission,
+      convertedCarbonEmission,
       energy,
       tvWatchingTime,
       passageCar,
-      elevatorFloorMovement,
-      a4PaperUsage,
+      subwayTravelDistance,
+      appleProduction,
     );
   }
 }
