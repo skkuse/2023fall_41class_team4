@@ -9,40 +9,50 @@ import { Code } from 'src/db/code.entity';
 
 @Injectable()
 export class JavaRunnerService {
-  readonly tempDirectory = './temp';
-  readonly fileName = 'Main';
-  readonly resultFileName = 'result.txt';
+    readonly tempDirectory = './temp';
+    readonly fileName = 'Main';
+    // readonly resultFileName = 'result.txt';
+    readonly resultFileName = 'src/process/result.txt';
 
-  constructor(
-    @InjectRepository(ExecutionResult)
-    private executionRepository: Repository<ExecutionResult>,
-  ) {}
+    constructor(
+        @InjectRepository(ExecutionResult)
+        private executionRepository: Repository<ExecutionResult>,
+    ) { }
 
-  async run(code: Code): Promise<ExecutionResult> {
-    const command = `/usr/bin/time -f \"%e %P %M\" -o ${this.resultFileName} java -cp ${this.tempDirectory} ${this.fileName}`;
-    execSync(command);
+    async run(code: Code): Promise<ExecutionResult> {
+        // const command = `/usr/bin/time -f \"%e %P %M\" -o ${this.resultFileName} java -cp ${this.tempDirectory} ${this.fileName}`;
+        const command = `src/process/run.sh ${this.tempDirectory}/${this.fileName}`;
+        execSync(command);
 
-    // TODO: handle when run failed
-    // TODO: handle when compile failed
+        const resultFile = readFileSync(`${this.resultFileName}`, {
+            encoding: 'utf-8',
+        });
 
-    const resultFile = readFileSync(`${this.resultFileName}`, {
-      encoding: 'utf-8',
-    });
+        // const [runtime, coreUsage, memUsage] = resultFile
+        //     .toString()
+        //     .trim()
+        //     .split(' ');
 
-    const [runtime, coreUsage, memUsage] = resultFile
-      .toString()
-      .trim()
-      .split(' ');
+        const [status, runtime, memUsage] = resultFile
+            .toString()
+            .trim()
+            .split(' ');
+        const coreUsage = 1;
 
-    const executionResult = this.executionRepository.create({
-      code,
-      status: ExecutionStatus.SUCCESS,
-      runtime: Number(runtime),
-      coreUsage: Number(coreUsage.slice(0, -1)),
-      memUsage: Number(memUsage),
-    });
-    await this.executionRepository.save(executionResult);
+        // TODO: 런타임 에러 처리하기
+        if (status === '0') {
 
-    return executionResult;
-  }
+        }
+
+        const executionResult = this.executionRepository.create({
+            code,
+            status: ExecutionStatus.SUCCESS,
+            runtime: Number(runtime),
+            coreUsage: Number(coreUsage.slice(0, -1)),
+            memUsage: Number(memUsage),
+        });
+        await this.executionRepository.save(executionResult);
+
+        return executionResult;
+    }
 }
