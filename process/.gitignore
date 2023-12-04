@@ -5,3 +5,5 @@
 *.class
 *.txt
 *.java
+
+!testcases/*

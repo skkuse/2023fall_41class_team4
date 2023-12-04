@@ -5,6 +5,13 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
+
+// 알람 시그널 핸들러 함수
+void exit_on_timeout(int signo)
+{
+    exit(1);
+}
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +32,12 @@ int main(int argc, char* argv[])
             // 자식 프로세스 코드
             // 여기에서 실행할 파일을 지정하고 실행
 
+            // 알람 시그널 핸들러 등록
+            signal(SIGALRM, exit_on_timeout);
+
+            // 30초 런타임 제한 설정
+            alarm(30);
+
             char* child_argv[] = { "java", argv[1], NULL };
             execvp(child_argv[0], child_argv);
 
@@ -38,19 +51,26 @@ int main(int argc, char* argv[])
 
             printf("child end: %d\n", getpid());
             exit(1);
+            
         } else {
             // 부모 프로세스 코드
             // 자식 프로세스의 종료를 기다림
+            
             struct rusage ru_child;
 
             wait4(child_pid, &status, 0, &ru_child);
 
-            if (!WIFEXITED(status)) {
-                printf("0 runtime_error\n");
+            total_runtime_s += ru_child.ru_utime.tv_sec + ru_child.ru_stime.tv_sec;
+            if (total_runtime_s >= 30) {
+                printf("0 runtime_error timeout\n");
                 exit(1);
             }
 
-            total_runtime_s += ru_child.ru_utime.tv_sec + ru_child.ru_stime.tv_sec;
+            if (!WIFEXITED(status)) {
+                printf("0 runtime_error unknown\n");
+                exit(1);
+            }
+
             total_runtime_us += ru_child.ru_utime.tv_usec + ru_child.ru_stime.tv_usec;
             total_memusage += ru_child.ru_maxrss;
         }

@@ -17,4 +17,4 @@ IFS=' ' read -r status_code result_type result_message <<< "$run_result"
 echo $status_code $result_type $result_message > $result
 echo $status_code
 
-rm "$execute_path.class"
+rm *.class
