@@ -5,11 +5,9 @@ import { Repository } from 'typeorm';
 import { execSync } from 'child_process';
 import { ExecutionStatus } from 'src/db/execution-status.enum';
 import { Code } from 'src/db/code.entity';
-import {
-  LimitExceededException,
-  RuntimeErrorException,
-} from 'src/common/java-error.exception';
+import { KilledError, RuntimeError } from 'src/common/java-error.exception';
 import { ConfigService } from '@nestjs/config';
+import { readFile } from 'fs/promises';
 
 @Injectable()
 export class JavaRunnerService {
@@ -27,21 +25,21 @@ export class JavaRunnerService {
 
   async run(code: Code): Promise<ExecutionResult> {
     const path = `${this.baseDir}/${code.id}`;
-    const result = execSync(
-      `cd ${path} && ../run ${this.filename} 2>/dev/null`,
+    const output = execSync(
+      `cd ${path} && ../run ${this.filename} 2>error.log`,
     ).toString();
 
-    const [status, runtime, memUsage] = result.trim().split(' ');
+    const [status, runtime, memUsage] = output.trim().split(' ');
     console.log(status, runtime, memUsage);
 
     switch (Number(status)) {
       case 1:
-        // FIXME: 런타임 에러 발생 시 에러 내용 받아오기
-        throw new RuntimeErrorException(runtime);
+        const error = (await readFile(`${path}/error.log`)).toString();
+        throw new RuntimeError(error);
       case 2:
-        throw new LimitExceededException('시간');
+        throw new KilledError('시간');
       case 3:
-        throw new LimitExceededException('메모리');
+        throw new KilledError('메모리');
     }
     // TODO: status가 SUCCESS가 아닐 때에도 DB에 저장
 

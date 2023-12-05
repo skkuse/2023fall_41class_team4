@@ -65,13 +65,13 @@ int main(int argc, char* argv[])
             // printf("%ld %d %d %d\n", total_runtime_s, status, WIFEXITED(status), WEXITSTATUS(status));
 
             if (total_runtime_s >= 30) {
-                printf("2 timeout timeout\n");
-                exit(1);
+                printf("2 timeout\n");
+                exit(0);
             }
 
             if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-                printf("1 runtime_error unknown\n");
-                exit(1);
+                printf("1 runtime_error\n");
+                exit(0);
             }
 
             total_runtime_us += ru_child.ru_utime.tv_usec + ru_child.ru_stime.tv_usec;
