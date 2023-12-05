@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExecutionResult } from '../db/execution-result.entity';
 import { Repository } from 'typeorm';
 import { execSync } from 'child_process';
-import { ExecutionStatus } from 'src/db/execution-status.enum';
+import { ExecutionStatus, Status } from 'src/db/execution-status.enum';
 import { Code } from 'src/db/code.entity';
 import { KilledError, RuntimeError } from 'src/common/java-error.exception';
 import { ConfigService } from '@nestjs/config';
@@ -24,34 +24,36 @@ export class JavaRunnerService {
   }
 
   async run(code: Code): Promise<ExecutionResult> {
+    // 프로그램 실행
     const path = `${this.baseDir}/${code.id}`;
-    const output = execSync(
-      `cd ${path} && ../run ${this.filename} 2>error.log`,
-    ).toString();
+    const output = execSync(`cd ${path} && ../run ${this.filename}`).toString();
 
-    const [status, runtime, memUsage] = output.trim().split(' ');
-    console.log(status, runtime, memUsage);
+    // 실행 결과 파싱
+    const [_status, _runtime, _memUsage] = output.trim().split(' ');
+    const status = Number(_status);
+    const runtime = _runtime === undefined ? 0 : Number(_runtime);
+    const memUsage = _memUsage === undefined ? 0 : Number(_memUsage);
 
-    switch (Number(status)) {
-      case 1:
-        const error = (await readFile(`${path}/error.log`)).toString();
-        throw new RuntimeError(error);
-      case 2:
-        throw new KilledError('시간');
-      case 3:
-        throw new KilledError('메모리');
-    }
-    // TODO: status가 SUCCESS가 아닐 때에도 DB에 저장
-
+    // 실행 결과 저장
     const executionResult = this.executionRepository.create({
       code,
-      status: ExecutionStatus.SUCCESS,
-      runtime: Number(runtime),
+      status: ExecutionStatus[Status[status]],
+      runtime,
       coreUsage: this.coreUsage,
-      memUsage: Number(memUsage),
+      memUsage,
     });
     await this.executionRepository.save(executionResult);
 
+    // 에러 발생 시 예외 처리
+    switch (status) {
+      case Status.RUNTIME_ERROR:
+        const message = (await readFile(`${path}/error.log`)).toString();
+        throw new RuntimeError(message);
+      case Status.TIME_LIMIT_EXCEEDED:
+        throw new KilledError('시간');
+      case Status.COMPILE_ERROR:
+        throw new KilledError('메모리');
+    }
     return executionResult;
   }
 }

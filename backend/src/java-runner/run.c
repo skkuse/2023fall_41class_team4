@@ -38,6 +38,10 @@ int main(int argc, char* argv[])
             // 30초 런타임 제한 설정
             alarm(30);
 
+            // Java 프로그램 stdout 출력 숨기기 및 에러 로깅
+            freopen("/dev/null", "w", stdout);
+            freopen("error.log", "w", stderr);
+            
             char* child_argv[] = { "java", argv[1], NULL };
             execvp(child_argv[0], child_argv);
 
@@ -65,12 +69,12 @@ int main(int argc, char* argv[])
             // printf("%ld %d %d %d\n", total_runtime_s, status, WIFEXITED(status), WEXITSTATUS(status));
 
             if (total_runtime_s >= 30) {
-                printf("2 timeout\n");
+                printf("2\n");
                 exit(0);
             }
 
             if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-                printf("1 runtime_error\n");
+                printf("1\n");
                 exit(0);
             }
 
