@@ -61,12 +61,16 @@ int main(int argc, char* argv[])
             wait4(child_pid, &status, 0, &ru_child);
 
             total_runtime_s += ru_child.ru_utime.tv_sec + ru_child.ru_stime.tv_sec;
+
+            // printf("%ld %d %d %d\n", total_runtime_s, status, WIFEXITED(status), WEXITSTATUS(status));
+
             if (total_runtime_s >= 30) {
                 printf("0 runtime_error timeout\n");
                 exit(1);
             }
 
-            if (!WIFEXITED(status)) {
+
+            if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
                 printf("0 runtime_error unknown\n");
                 exit(1);
             }
