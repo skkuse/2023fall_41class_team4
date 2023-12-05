@@ -61,18 +61,18 @@ int main(int argc, char* argv[])
             // 자식 프로세스의 종료를 기다림
             
             struct rusage ru_child;
-
             wait4(child_pid, &status, 0, &ru_child);
 
             total_runtime_s += ru_child.ru_utime.tv_sec + ru_child.ru_stime.tv_sec;
 
-            // printf("%ld %d %d %d\n", total_runtime_s, status, WIFEXITED(status), WEXITSTATUS(status));
 
+            // 시간 제한 초과
             if (total_runtime_s >= 30) {
                 printf("2\n");
                 exit(0);
             }
 
+            // 런타임 에러 발생
             if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
                 printf("1\n");
                 exit(0);
