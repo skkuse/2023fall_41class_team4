@@ -15,4 +15,7 @@ COPY . .
 
 RUN npm run build
 
+RUN mkdir -p /tmp/sandbox
+RUN gcc src/java-runner/run.c -Wall -o /tmp/sandbox/run
+
 CMD [ "node", "dist/main.js" ]
