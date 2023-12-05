@@ -65,13 +65,12 @@ int main(int argc, char* argv[])
             // printf("%ld %d %d %d\n", total_runtime_s, status, WIFEXITED(status), WEXITSTATUS(status));
 
             if (total_runtime_s >= 30) {
-                printf("0 runtime_error timeout\n");
+                printf("2 timeout timeout\n");
                 exit(1);
             }
 
-
             if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-                printf("0 runtime_error unknown\n");
+                printf("1 runtime_error unknown\n");
                 exit(1);
             }
 
@@ -84,7 +83,7 @@ int main(int argc, char* argv[])
     long mean_runtime_us = (total_runtime_us / iter) % 1000000;
     double mean_runtime = (double)(mean_runtime_s) + (double)(mean_runtime_us) / 1000000;
     long mean_memusage = total_memusage / iter;
-    printf("1 %.6lf %ld", mean_runtime, mean_memusage);
+    printf("0 %.6lf %ld", mean_runtime, mean_memusage);
 
     return 0;
 }

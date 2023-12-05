@@ -1,8 +1,0 @@
-# .exe file
-*
-!*.*
-
-*.class
-*.txt
-
-!testcases

@@ -11,9 +11,10 @@ execute_path=${input_path%.java}
 
 # 실행 및 결과 분석
 opt=$(basename $execute_path)
+echo opt
 run_result=$(./run $opt)
 IFS=' ' read -r status_code result_type result_message <<< "$run_result"
-    
+
 echo $status_code $result_type $result_message > $result
 echo $status_code
 
