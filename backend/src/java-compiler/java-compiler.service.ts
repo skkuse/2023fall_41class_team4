@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { exec, execSync } from 'child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
 import { Code } from 'src/db/code.entity';
-import { CompileErrorException } from 'src/common/java-error.exception';
+import { CompileError } from 'src/common/java-error.exception';
 import { mkdir, writeFile } from 'fs/promises';
 
 @Injectable()
@@ -15,9 +15,9 @@ export class JavaCompilerService {
     await this.writeFile(path, code.code);
 
     try {
-      await exec(`javac -d ${path} ${path}/${this.filename}`);
+      execSync(`javac -d ${path} ${path}/${this.filename}`);
     } catch (error) {
-      throw new CompileErrorException(error.stderr.toString());
+      throw new CompileError(error.stderr.toString());
     }
   }
 
