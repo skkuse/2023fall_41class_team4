@@ -1,9 +1,9 @@
 export enum Status {
   SUCCESS = 0,
+  COMPILE_ERROR = 4,
   RUNTIME_ERROR = 1,
   TIME_LIMIT_EXCEEDED = 2,
   MEMORY_LIMIT_EXCEEDED = 3,
-  COMPILE_ERROR = 4,
 }
 
 export enum ExecutionStatus {

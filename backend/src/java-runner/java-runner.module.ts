@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JavaRunnerService } from './java-runner.service';
-import { ExecutionResult } from 'src/db/execution-result.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { CodeModule } from 'src/code/code.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ExecutionResult])],
+  imports: [CodeModule],
   providers: [JavaRunnerService],
   exports: [JavaRunnerService],
 })

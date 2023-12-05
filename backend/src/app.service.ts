@@ -21,7 +21,11 @@ export class AppService {
     const executionResult = await this.javaRunnerService.run(code);
 
     const emission = await this.codeService.calculateEmission(executionResult);
-    await this.codeService.updateEmission({ id: code.id, emission: emission });
+    await this.codeService.updateCode({
+      id: code.id,
+      emission,
+      executionResult,
+    });
 
     return new CarbonEmissionResponseDto(
       this.converterService.convertCarbonEmission(emission),

@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ExecutionResult } from '../db/execution-result.entity';
-import { Repository } from 'typeorm';
 import { execSync } from 'child_process';
 import { ExecutionStatus, Status } from 'src/db/execution-status.enum';
 import { Code } from 'src/db/code.entity';
 import { KilledError, RuntimeError } from 'src/common/java-error.exception';
 import { ConfigService } from '@nestjs/config';
 import { readFile } from 'fs/promises';
+import { CodeService } from 'src/code/code.service';
 
 @Injectable()
 export class JavaRunnerService {
@@ -16,8 +15,7 @@ export class JavaRunnerService {
   private readonly coreUsage: number;
 
   constructor(
-    @InjectRepository(ExecutionResult)
-    private executionRepository: Repository<ExecutionResult>,
+    private readonly codeService: CodeService,
     configService: ConfigService,
   ) {
     this.coreUsage = configService.get<number>('CONST_CORE_USAGE');
@@ -31,18 +29,20 @@ export class JavaRunnerService {
     // 실행 결과 파싱
     const [_status, _runtime, _memUsage] = output.trim().split(' ');
     const status = Number(_status);
-    const runtime = _runtime === undefined ? 0 : Number(_runtime);
-    const memUsage = _memUsage === undefined ? 0 : Number(_memUsage);
+    const runtime = _runtime === undefined ? -1 : Number(_runtime);
+    const memUsage = _memUsage === undefined ? -1 : Number(_memUsage);
 
     // 실행 결과 저장
-    const executionResult = this.executionRepository.create({
-      code,
-      status: ExecutionStatus[Status[status]],
-      runtime,
-      coreUsage: this.coreUsage,
-      memUsage,
-    });
-    await this.executionRepository.save(executionResult);
+    const executionResult = await this.codeService.saveExecutionResult(
+      code.id,
+      {
+        status: ExecutionStatus[Status[status]],
+        runtime,
+        coreUsage: this.coreUsage,
+        memUsage,
+      },
+      status !== 0, // 에러 발생 시 code 업데이트
+    );
 
     // 에러 발생 시 예외 처리
     switch (status) {
