@@ -1,4 +1,5 @@
 export enum ExecutionStatus {
   SUCCESS = 'SUCCESS',
-  FAIL = 'FAIL',
+  COMPILE_ERROR = 'COMPILE_ERROR',
+  RUNTIME_ERROR = 'RUNTIME_ERROR',
 }
