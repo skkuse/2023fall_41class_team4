@@ -13,10 +13,6 @@ export class ExecutionResult {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Code)
-  @JoinColumn({ name: 'code_id' })
-  code!: Code;
-
   @Column()
   status: ExecutionStatus;
 
