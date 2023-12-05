@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
+import { CarbonEmissionConvertedResultDto } from 'src/common/carbon-emission-converted-result.dto';
 
 /**
  * @file carbon-emissions-converter.service.ts
