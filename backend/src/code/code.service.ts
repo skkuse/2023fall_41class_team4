@@ -12,6 +12,8 @@ export class CodeService {
   constructor(
     @InjectRepository(Code)
     private codeRepository: Repository<Code>,
+    @InjectRepository(ExecutionResult)
+    private executionRepository: Repository<ExecutionResult>,
     configService: ConfigService,
   ) {
     const cores = configService.get<number>('NUM_OF_CORES');
@@ -46,7 +48,20 @@ export class CodeService {
     );
   }
 
-  async updateEmission(code: Partial<Code>) {
+  async updateCode(code: Partial<Code>) {
     await this.codeRepository.update({ id: code.id }, { ...code });
+  }
+
+  async saveExecutionResult(
+    id: number,
+    result: Partial<ExecutionResult>,
+    connect: boolean,
+  ): Promise<ExecutionResult> {
+    const data = this.executionRepository.create(result);
+    const executionResult = await this.executionRepository.save(data);
+    if (connect) {
+      await this.updateCode({ id, executionResult: executionResult });
+    }
+    return executionResult;
   }
 }
