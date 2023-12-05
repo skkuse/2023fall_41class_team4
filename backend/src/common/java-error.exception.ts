@@ -1,5 +1,3 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-
 export class JavaError extends Error {
   name: string;
 
@@ -9,20 +7,20 @@ export class JavaError extends Error {
   }
 }
 
-export class CompileErrorException extends JavaError {
+export class CompileError extends JavaError {
   constructor(message) {
     super(message);
   }
 }
 
-export class RuntimeErrorException extends JavaError {
+export class RuntimeError extends JavaError {
   constructor(message) {
     super(message);
   }
 }
 
-export class LimitExceededException extends JavaError {
-  constructor(target) {
-    super(`${target} 제한을 조과하였습니다.`);
+export class KilledError extends JavaError {
+  constructor(cause) {
+    super(`${cause} 제한을 조과하여 프로세스가 강제 종료되었습니다.`);
   }
 }

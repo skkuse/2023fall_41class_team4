@@ -6,9 +6,16 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
+import { CarbonEmissionRequestDto } from 'src/common/carbon-emission-request.dto';
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
+import { CarbonEmissionResponseDto } from './common/carbon-emission-response.dto';
+import { JavaError } from './common/java-error.exception';
+import { ErrorResponseDTO } from './common/error-response.dto';
 
 @Controller()
 @ApiTags('탄소 배출량 API')
@@ -18,6 +25,8 @@ export class AppController {
   @Post('carbon-emission')
   @ApiOperation({ summary: '탄소 배출량 생성 API' })
   @ApiCreatedResponse({ type: CarbonEmissionResponseDto })
+  @ApiUnprocessableEntityResponse({ type: ErrorResponseDTO })
+  @ApiCreatedResponse({ type: JavaError })
   async calculateEmissions(
     @Body() body: CarbonEmissionRequestDto,
   ): Promise<CarbonEmissionResponseDto> {
@@ -26,6 +35,10 @@ export class AppController {
     } catch (error) {
       if (error instanceof UnprocessableEntityException) {
         throw new UnprocessableEntityException(error.message);
+      } else if (error instanceof JavaError) {
+        throw new UnprocessableEntityException(error.message, {
+          description: error.name,
+        });
       } else {
         throw new InternalServerErrorException(error.message);
       }
