@@ -7,7 +7,7 @@ import {
   KILO_TO_MILLI,
   MICRO,
 } from './converter.constants';
-import { Reference } from './emission-type.enum';
+import { Reference } from './reference.enum';
 
 /**
  * @file carbon-emissions-converter.service.ts

@@ -1,4 +1,4 @@
-import { Reference } from './emission-type.enum';
+import { Reference } from './reference.enum';
 
 export const CONVERTER_CONFIG = 'CONVERTER_CONFIG';
 export const emissionReferences = Object.values(Reference);
