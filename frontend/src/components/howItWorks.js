@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 
 const HowItWorks = () => {
   const isDesktopOrMobile = useMediaQuery({ query: "(max-width:767px)" });
-  const inlineFormula = ` E = t * (n_c * P_c * u_c * n_m * P_m) * PUE * 0.001`;
+  const inlineFormula = ` E = t * (n_c * P_c * u_c + n_m * P_m) * PUE * 0.001`;
   return (
     <HowItWorksContainer>
       <h1>How It Works?</h1>
