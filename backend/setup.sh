@@ -13,7 +13,7 @@ then
   echo "POWER_OF_CORE=8" >> .env
   echo "PUE=1.2" >> .env
   echo "CARBON_INTENSITY=436" >> .env
-  echo "CONST_CORE_USAGE=1.2" >> .env
+  echo "CONST_CORE_USAGE=1" >> .env
 fi
 
 # set up java runner
