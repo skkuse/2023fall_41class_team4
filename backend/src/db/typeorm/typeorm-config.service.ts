@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { basename, resolve } from 'path';
 
 @Injectable()
 export class TypeOrmConfigService {
@@ -14,7 +15,7 @@ export class TypeOrmConfigService {
       username: this.config.get('DATABASE_USER'),
       password: this.config.get('DATABASE_PASS'),
       database: this.config.get('DATABASE_NAME'),
-      entities: [__dirname + '/*.entity.{js,ts}'],
+      entities: [resolve(__dirname, '../entity/*.entity.{js,ts}')],
       synchronize: true,
     };
 
