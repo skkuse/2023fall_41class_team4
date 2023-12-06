@@ -1,4 +1,4 @@
-import { ExecutionStatus } from 'src/db/execution-status.enum';
+import { ExecutionStatus } from './execution-status.enum';
 import {
   Entity,
   Column,
@@ -6,16 +6,11 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Code } from './code.entity';
 
 @Entity({ name: 'execution_result' })
 export class ExecutionResult {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @OneToOne(() => Code)
-  @JoinColumn({ name: 'code_id' })
-  code!: Code;
 
   @Column()
   status: ExecutionStatus;

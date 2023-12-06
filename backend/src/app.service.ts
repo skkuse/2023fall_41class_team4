@@ -1,34 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { JavaCompilerService } from './java-compiler/java-compiler.service';
 import { JavaRunnerService } from './java-runner/java-runner.service';
-import { CodeService } from './code/code.service';
+import { DBRepository } from './db/db.repository';
 import { ConverterService } from './converter/converter.service';
 import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
+import { ExecutionResult } from './db/entity/execution-result.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
-  readonly OK_STATUS = 'OK';
-  readonly COMPILE_ERROR_STATUS = 'COMPILE_ERROR';
-  readonly RUNTIME_ERROR_STATUS = 'RUNTIME_ERROR';
+  private readonly config;
+
   constructor(
-    private readonly codeService: CodeService,
+    private readonly repository: DBRepository,
     private readonly javaCompilerService: JavaCompilerService,
     private readonly javaRunnerService: JavaRunnerService,
     private readonly converterService: ConverterService,
-  ) {}
+    configService: ConfigService,
+  ) {
+    const cores = configService.get<number>('NUM_OF_CORES');
+    const power = configService.get<number>('POWER_OF_CORE');
+    const ci = configService.get<number>('CARBON_INTENSITY');
+
+    const pue = configService.get<number>('PUE');
+    this.config = { powerOfCores: cores * power, pue, ci };
+  }
 
   async calculateEmission(input: string) {
-    const code = await this.codeService.saveCode(input);
-    // FIXME: compile result 넘겨주도록 수정
+    const size = new Blob([input]).size;
+    if (size > 4000) {
+      throw new UnprocessableEntityException(
+        '입력하는 코드의 사이즈는 4KB 이하여야 합니다.',
+      );
+    }
+    const code = await this.repository.saveCode(input);
+
     await this.javaCompilerService.compile(code);
     const executionResult = await this.javaRunnerService.run(code);
 
-    const emission = await this.codeService.calculateEmission(executionResult);
-    await this.codeService.updateEmission({ id: code.id, emission: emission });
+    const emission = await this.applyGreenAlgorithm(executionResult);
+    await this.repository.updateCode({
+      id: code.id,
+      emission,
+      executionResult,
+    });
 
     return new CarbonEmissionResponseDto(
-      this.OK_STATUS,
       this.converterService.convertCarbonEmission(emission),
+    );
+  }
+
+  async applyGreenAlgorithm(execution: ExecutionResult): Promise<number> {
+    const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
+    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
+
+    return (
+      (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
+      runtime *
+      this.config.pue *
+      0.001 *
+      this.config.ci
     );
   }
 }
