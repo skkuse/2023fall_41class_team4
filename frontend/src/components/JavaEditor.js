@@ -4,14 +4,7 @@ import styled from "styled-components";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// status 텍스트 변경을 위한 상수
-const Status = {
-    WAITING: "WAITING",
-    PROGRESS: "PROGRESS",
-    SUCCESS: "SUCCESS",
-    BUILDERROR: "BUILDERROR",
-    COMPILEERROR: "COMPILEERROR",
-};
+import Status from "../constants/status";
 
 const JavaEditor = () => {
     const defaultValue = "// write down your code here";
