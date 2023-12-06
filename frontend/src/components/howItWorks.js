@@ -116,10 +116,12 @@ const BoxContainer = styled.div`
     margin: 0 0.5rem 0 0;
   }
   border-radius: 2rem;
-  padding: 3rem;
+  /* padding: 3rem; */
+  width: 70vw;
   box-shadow: 1px 5px 5px 5px rgba(0, 0, 0, 0.2);
   @media screen and (max-width: 700px) {
     width: 90%;
+    padding: 1rem;
     > div {
       margin: 1rem;
     }
