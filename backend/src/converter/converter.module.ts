@@ -1,11 +1,24 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { ConverterService } from './converter.service';
-import { Emission } from '../db/entity/emission.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConverterModuleAsyncOptions } from './converter-options.interface';
+import { CONVERTER_CONFIG } from './converter.constants';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Emission])],
   providers: [ConverterService],
   exports: [ConverterService],
 })
-export class ConverterModule {}
+export class ConverterModule {
+  static forRootAsync(options: ConverterModuleAsyncOptions): DynamicModule {
+    return {
+      module: ConverterModule,
+      imports: options.imports || [],
+      providers: [
+        {
+          provide: CONVERTER_CONFIG,
+          useFactory: options.useFactory,
+          inject: options.inject || [],
+        },
+      ],
+    };
+  }
+}
