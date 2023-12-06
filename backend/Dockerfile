@@ -7,11 +7,12 @@ COPY package*.json ./
 RUN apt-get update && \
     apt-get install -y openjdk-17-jdk
 
-RUN npm install
+RUN npm install -g pnpm
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
 RUN sh setup.sh
 
