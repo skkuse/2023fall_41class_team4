@@ -6,16 +6,16 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CarbonEmissionRequestDto } from 'src/common/carbon-emission-request.dto';
+import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
 import {
   ApiCreatedResponse,
   ApiOperation,
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { CarbonEmissionResponseDto } from './common/carbon-emission-response.dto';
-import { JavaError } from './common/java-error.exception';
-import { ErrorResponseDTO } from './common/error-response.dto';
+import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
+import { JavaError } from './dto/java-error.exception';
+import { ErrorResponseDTO } from './dto/error-response.dto';
 
 @Controller()
 @ApiTags('탄소 배출량 API')

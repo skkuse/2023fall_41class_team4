@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import { Code } from 'src/db/code.entity';
-import { CompileError } from 'src/common/java-error.exception';
+import { CompileError } from 'src/dto/java-error.exception';
 import { mkdir, writeFile } from 'fs/promises';
 import { CodeService } from 'src/code/code.service';
 import { ExecutionStatus } from 'src/db/execution-status.enum';

@@ -3,7 +3,7 @@ import { JavaCompilerService } from './java-compiler/java-compiler.service';
 import { JavaRunnerService } from './java-runner/java-runner.service';
 import { CodeService } from './code/code.service';
 import { ConverterService } from './converter/converter.service';
-import { CarbonEmissionResponseDto } from './common/carbon-emission-response.dto';
+import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 
 @Injectable()
 export class AppService {

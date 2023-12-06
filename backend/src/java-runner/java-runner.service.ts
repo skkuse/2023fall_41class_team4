@@ -3,7 +3,7 @@ import { ExecutionResult } from '../db/execution-result.entity';
 import { execSync } from 'child_process';
 import { ExecutionStatus, Status } from 'src/db/execution-status.enum';
 import { Code } from 'src/db/code.entity';
-import { KilledError, RuntimeError } from 'src/common/java-error.exception';
+import { KilledError, RuntimeError } from 'src/dto/java-error.exception';
 import { ConfigService } from '@nestjs/config';
 import { readFile } from 'fs/promises';
 import { CodeService } from 'src/code/code.service';
