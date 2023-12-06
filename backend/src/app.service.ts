@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { JavaCompilerService } from './java-compiler/java-compiler.service';
 import { JavaRunnerService } from './java-runner/java-runner.service';
 import { DBRepository } from './db/db.repository';
@@ -27,6 +27,12 @@ export class AppService {
   }
 
   async calculateEmission(input: string) {
+    const size = new Blob([input]).size;
+    if (size > 4000) {
+      throw new UnprocessableEntityException(
+        '입력하는 코드의 사이즈는 4KB 이하여야 합니다.',
+      );
+    }
     const code = await this.repository.saveCode(input);
 
     await this.javaCompilerService.compile(code);
