@@ -86,15 +86,17 @@ const JavaEditor = () => {
         />
       </EditorContainer>
       <BtnContainer>
-        <SubmitBtn
-          onClick={handleClick}
-          $onProgress={status === Status.PROGRESS}
-        >
-          Submit
-        </SubmitBtn>
-        <RefreshBtn onClick={handleRefresh}>
-          <FontAwesomeIcon icon={faRefresh} className="icon" />
-        </RefreshBtn>
+        <div>
+          <SubmitBtn
+            onClick={handleClick}
+            $onProgress={status === Status.PROGRESS}
+          >
+            Submit
+          </SubmitBtn>
+          <RefreshBtn onClick={handleRefresh}>
+            <FontAwesomeIcon icon={faRefresh} className="icon" />
+          </RefreshBtn>
+        </div>
         <StatusText $status={status}>{getStatusText(status)}</StatusText>
       </BtnContainer>
     </>
@@ -114,6 +116,10 @@ const BtnContainer = styled.div`
   width: 70vw;
   display: flex;
   justify-content: flex-start;
+  @media screen and (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -131,6 +137,9 @@ const SubmitBtn = styled.button`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+  @media screen and (max-width: 700px) {
+    margin-bottom: 0.2rem;
+  }
   &:hover {
     cursor: ${(props) => (props.$onProgress ? "wait" : "pointer")};
   }
@@ -152,12 +161,18 @@ const RefreshBtn = styled.button`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+  @media screen and (max-width: 700px) {
+    margin-bottom: 0.2rem;
+  }
 `;
 
 const StatusText = styled.p`
   font-size: 1rem;
   font-weight: bold;
   /* font-family: Inter; */
+  @media screen and (max-width: 700px) {
+    margin-bottom: 2rem;
+  }
   color: ${(props) =>
     props.$status === Status.BUILDERROR || Status.COMPILEERROR
       ? "#38C972"
