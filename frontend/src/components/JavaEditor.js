@@ -140,6 +140,9 @@ const SubmitBtn = styled.button`
   @media screen and (max-width: 700px) {
     margin-bottom: 0.2rem;
   }
+  @media screen and (max-width: 400px) {
+    width: 7rem;
+  }
   &:hover {
     cursor: ${(props) => (props.$onProgress ? "wait" : "pointer")};
   }
