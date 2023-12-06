@@ -19,7 +19,7 @@ export class JavaCompilerService {
     await this.writeFile(path, code.code);
 
     try {
-      execSync(`javac -d ${path} ${path}/${this.filename}`);
+      execSync(`javac -encoding utf-8 ${path}/${this.filename}`);
     } catch (error) {
       await this.repository.saveExecutionResult(
         code.id,
