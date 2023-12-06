@@ -1,11 +1,5 @@
 import { ExecutionStatus } from './execution-status.enum';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'execution_result' })
 export class ExecutionResult {
@@ -15,12 +9,12 @@ export class ExecutionResult {
   @Column()
   status: ExecutionStatus;
 
-  @Column()
+  @Column({ type: 'double' })
   runtime: number;
 
-  @Column({ name: 'mem_usage' })
+  @Column({ name: 'mem_usage', type: 'bigint' })
   memUsage: number;
 
-  @Column({ name: 'core_usage' })
+  @Column({ name: 'core_usage', type: 'double' })
   coreUsage: number;
 }
