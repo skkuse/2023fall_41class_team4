@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Emission } from '../db/entity/emission.entity';
+import {
+  CONVERTER_CONFIG,
+  HOUR_TO_MICROSECOND,
+  KILO_TO_MICRO,
+  KILO_TO_MILLI,
+  MICRO,
+} from './converter.constants';
+import { Reference } from './emission-type.enum';
 
 /**
  * @file carbon-emissions-converter.service.ts
@@ -11,59 +16,13 @@ import { Emission } from '../db/entity/emission.entity';
  */
 @Injectable()
 export class ConverterService {
-  TV_CARBON_EMISSION_PER_HOUR: number;
-  CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE: number;
-  SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E: number;
-  APPLE_PRODUCTION_PER_GCO2E: number;
-  readonly GCO2E_TO_MICRO_GCO2 = 1_000_000;
-  readonly SOUTH_KOREA_CI = 436;
-  readonly KILOWATT_TO_MICROWATT = 1_000_000_000;
-  readonly HOUR_TO_MICROSECOND = 3.6 * 1_000_000_000;
-  readonly KILOMETER_TO_MICROMETER = 1_000_000_000;
-  readonly KILOMETER_TO_MILLIMETER = 1_000_000;
-  readonly GRAM_TO_MICRO_GRAM = 1_000_000;
-
   constructor(
-    @InjectRepository(Emission)
-    private emissionRepository: Repository<Emission>,
-  ) {
-    this.init(emissionRepository);
-  }
-
-  async init(emissionRepository: Repository<Emission>) {
-    this.TV_CARBON_EMISSION_PER_HOUR = (
-      await this.getEmission('TV_CARBON_EMISSION_PER_HOUR', emissionRepository)
-    ).emission;
-    this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE = (
-      await this.getEmission(
-        'CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE',
-        emissionRepository,
-      )
-    ).emission;
-    this.SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E = (
-      await this.getEmission(
-        'SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E',
-        emissionRepository,
-      )
-    ).emission;
-    this.APPLE_PRODUCTION_PER_GCO2E = (
-      await this.getEmission('APPLE_PRODUCTION_PER_GCO2E', emissionRepository)
-    ).emission;
-  }
-
-  async getEmission(
-    name: string,
-    emissionRepository: Repository<Emission>,
-  ): Promise<Emission> {
-    return await emissionRepository.findOne({
-      select: {
-        emission: true,
-      },
-      where: {
-        name: name,
-      },
-    });
-  }
+    @Inject(CONVERTER_CONFIG)
+    private readonly config: {
+      CI: number;
+      [ref: string]: number;
+    },
+  ) {}
 
   /**
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
@@ -74,39 +33,33 @@ export class ConverterService {
   ): CarbonEmissionConvertedResultDto {
     // 1. 탄소 배출량 계산
     // µgCO2e 단위
-    const convertedCarbonEmission: number =
-      carbonEmission * this.GCO2E_TO_MICRO_GCO2;
+    const convertedCarbonEmission: number = carbonEmission * MICRO;
 
     // 2. 전력 소모량 계산
     // µWh 단위
-    const energy: number =
-      (carbonEmission / this.SOUTH_KOREA_CI) * this.KILOWATT_TO_MICROWATT;
+    const energy: number = (carbonEmission / this.config.CI) * KILO_TO_MICRO;
 
     // 3. TV 시청 시간 계산
     // μs 단위
     const tvWatchingTime: number =
-      (carbonEmission / this.TV_CARBON_EMISSION_PER_HOUR) *
-      this.HOUR_TO_MICROSECOND;
+      (carbonEmission / this.config[Reference.TV_WATCH_TIME]) *
+      HOUR_TO_MICROSECOND;
 
     // 4. 승용차 주행 거리 계산
     // µm 단위
     const passageCar: number =
-      (carbonEmission / this.CARBON_EMISSIONS_OF_AVERAGE_PASSENGER_IN_EUROPE) *
-      this.KILOMETER_TO_MICROMETER;
+      (carbonEmission / this.config[Reference.DRIVING_DISTANCE]) *
+      KILO_TO_MICRO;
 
     // 5. 지하철 이동 거리 계산
     // mm 단위
     const subwayTravelDistance: number =
-      carbonEmission *
-      this.SUBWAY_TRAVEL_DISTANCE_KILOMETER_PER_GCO2E *
-      this.KILOMETER_TO_MILLIMETER;
+      carbonEmission * this.config[Reference.SUBWAY_DISTANCE] * KILO_TO_MILLI;
 
     // 6. 사과 생산량 계산
     // µg 단위
     const appleProduction: number =
-      carbonEmission *
-      this.APPLE_PRODUCTION_PER_GCO2E *
-      this.GRAM_TO_MICRO_GRAM;
+      carbonEmission * this.config[Reference.APPLE_PRODUCTION] * MICRO;
 
     return new CarbonEmissionConvertedResultDto(
       convertedCarbonEmission,
