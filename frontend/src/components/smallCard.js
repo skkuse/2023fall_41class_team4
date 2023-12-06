@@ -13,7 +13,6 @@ const SmallCard = ({ icon, name, value }) => {
 
 const CardWrapper = styled.div`
   width: 100%;
-  margin: 0 1.5rem 2rem 1.5rem;
   padding: 2rem 0;
   background: #f8f8f8;
   border-radius: 1rem;

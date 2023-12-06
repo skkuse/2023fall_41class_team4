@@ -17,8 +17,6 @@ const BigCard = ({ icon, name, value }) => {
 };
 
 const CardContainer = styled.div`
-  width: 100%;
-  margin: 2rem 1.5rem 0 1.5rem;
   padding: 3rem 0;
   background: #f8f8f8;
   border-radius: 1.5rem;
@@ -42,11 +40,17 @@ const CardContainer = styled.div`
   &:hover {
     background: rgb(56, 201, 114, 0.2);
   }
+  @media screen and (min-width: 1000px) {
+    width: 100%;
+  }
 `;
 const ValueBox = styled.div`
   font-size: 3rem;
   font-weight: bold;
   margin-left: 1.8rem;
+  @media screen and (max-width: 1000px) {
+    font-weight: normal;
+  }
 `;
 const UnitBox = styled.div`
   color: #828282;
