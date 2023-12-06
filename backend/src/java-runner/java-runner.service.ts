@@ -1,48 +1,59 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ExecutionResult } from '../db/execution-result.entity';
-import { Repository } from 'typeorm';
+import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
-import { ExecutionStatus } from 'src/db/execution-status.enum';
-import { Code } from 'src/db/code.entity';
+import { ExecutionStatus, Status } from 'src/db/entity/execution-status.enum';
+import { Code } from 'src/db/entity/code.entity';
+import { KilledError, RuntimeError } from 'src/dto/java-error.exception';
+import { ConfigService } from '@nestjs/config';
+import { readFile } from 'fs/promises';
+import { DBRepository } from 'src/db/db.repository';
 
 @Injectable()
 export class JavaRunnerService {
-  readonly tempDirectory = './temp';
-  readonly fileName = 'Main';
-  readonly resultFileName = 'result.txt';
+  private readonly baseDir = '/tmp/sandbox';
+  private readonly filename = 'Main';
+  private readonly coreUsage: number;
 
   constructor(
-    @InjectRepository(ExecutionResult)
-    private executionRepository: Repository<ExecutionResult>,
-  ) {}
+    private readonly repository: DBRepository,
+    configService: ConfigService,
+  ) {
+    this.coreUsage = configService.get<number>('CONST_CORE_USAGE');
+  }
 
   async run(code: Code): Promise<ExecutionResult> {
-    const command = `/usr/bin/time -f \"%e %P %M\" -o ${this.resultFileName} java -cp ${this.tempDirectory} ${this.fileName}`;
-    execSync(command);
+    // 프로그램 실행
+    const path = `${this.baseDir}/${code.id}`;
+    const output = execSync(`cd ${path} && ../run ${this.filename}`).toString();
 
-    // TODO: handle when run failed
-    // TODO: handle when compile failed
+    // 실행 결과 파싱
+    const [_status, _runtime, _memUsage] = output.trim().split(' ');
+    const status = Number(_status);
+    const runtime = _runtime === undefined ? -1 : Number(_runtime);
+    const memUsage = _memUsage === undefined ? -1 : Number(_memUsage);
 
-    const resultFile = readFileSync(`${this.resultFileName}`, {
-      encoding: 'utf-8',
-    });
+    // 실행 결과 저장
+    const executionResult = await this.repository.saveExecutionResult(
+      code.id,
+      {
+        status: ExecutionStatus[Status[status]],
+        runtime,
+        coreUsage: this.coreUsage,
+        memUsage,
+      },
+      status !== 0, // 에러 발생 시 code 업데이트
+    );
 
-    const [runtime, coreUsage, memUsage] = resultFile
-      .toString()
-      .trim()
-      .split(' ');
-
-    const executionResult = this.executionRepository.create({
-      code,
-      status: ExecutionStatus.SUCCESS,
-      runtime: Number(runtime),
-      coreUsage: Number(coreUsage.slice(0, -1)),
-      memUsage: Number(memUsage),
-    });
-    await this.executionRepository.save(executionResult);
-
+    // 에러 발생 시 예외 처리
+    switch (status) {
+      case Status.RUNTIME_ERROR:
+        const message = (await readFile(`${path}/error.log`)).toString();
+        throw new RuntimeError(message);
+      case Status.TIME_LIMIT_EXCEEDED:
+        throw new KilledError('시간');
+      case Status.COMPILE_ERROR:
+        throw new KilledError('메모리');
+    }
     return executionResult;
   }
 }

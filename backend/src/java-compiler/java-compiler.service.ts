@@ -1,25 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { execSync } from 'child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { Code } from 'src/db/code.entity';
+import { existsSync } from 'fs';
+import { Code } from 'src/db/entity/code.entity';
+import { CompileError } from 'src/dto/java-error.exception';
+import { mkdir, writeFile } from 'fs/promises';
+import { ExecutionStatus } from 'src/db/entity/execution-status.enum';
+import { DBRepository } from 'src/db/db.repository';
 
 @Injectable()
 export class JavaCompilerService {
-  readonly tempDirectory = './temp';
-  readonly javaFileName = 'Main.java';
+  private readonly baseDir = '/tmp/sandbox';
+  private readonly filename = 'Main.java';
+
+  constructor(private readonly repository: DBRepository) {}
 
   async compile(code: Code) {
-    await this.writeFile(code.code);
+    const path = `${this.baseDir}/${code.id}`;
+    await this.writeFile(path, code.code);
 
-    execSync(`javac ${this.tempDirectory}/${this.javaFileName}`);
-
-    // TODO: handle when compile failed
+    try {
+      execSync(`javac -encoding utf-8 ${path}/${this.filename}`);
+    } catch (error) {
+      await this.repository.saveExecutionResult(
+        code.id,
+        {
+          status: ExecutionStatus.COMPILE_ERROR,
+          runtime: -1,
+          coreUsage: -1,
+          memUsage: -1,
+        },
+        true, // code 업데이트
+      );
+      throw new CompileError(error.stderr.toString());
+    }
   }
 
-  private async writeFile(code: string) {
-    if (!existsSync(this.tempDirectory)) {
-      mkdirSync(this.tempDirectory);
+  private async writeFile(path: string, code: string) {
+    if (!existsSync(path)) {
+      await mkdir(path, { recursive: true });
     }
-    writeFileSync(`${this.tempDirectory}/${this.javaFileName}`, code);
+    await writeFile(`${path}/${this.filename}`, code);
   }
 }
