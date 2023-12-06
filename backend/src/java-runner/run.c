@@ -33,14 +33,14 @@ int main(int argc, char* argv[])
         // 알람 시그널 핸들러 등록
         signal(SIGALRM, exit_on_timeout);
 
-        // 30초 런타임 제한 설정
-        alarm(30);
-
         // Java 프로그램 stdout 출력 숨기기 및 에러 로깅
         freopen("/dev/null", "w", stdout);
         freopen("error.log", "w", stderr);
         
         char* child_argv[] = { "java", argv[1], NULL };
+
+        // 30초 런타임 제한 설정
+        alarm(30);
         execvp(child_argv[0], child_argv);
 
         // // execvp가 실패했을 때 실행되는 코드
@@ -70,9 +70,8 @@ int main(int argc, char* argv[])
     double runtime = (double)runtime_s + (double)(runtime_us) / 1000000;
 
     // 시간 제한 초과
-    printf("runtime: %lf\n", runtime);
     if (runtime >= 29.9) {
-        printf("2\n");
+        printf("2 %lf\n", runtime);
         exit(0);
     }
 
