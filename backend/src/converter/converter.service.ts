@@ -10,7 +10,7 @@ import {
 import { Reference } from './reference.enum';
 
 /**
- * @file carbon-emissions-converter.service.ts
+ * @file converter.service.ts
  * @description 탄소 배출량을 일상생활에서의 각종 사용량으로 변환하는 역할을 담당하는 클래스입니다.
  * @author Min Ho CHO
  */
