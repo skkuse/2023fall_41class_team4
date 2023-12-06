@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+// import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import styled from "styled-components";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
@@ -6,13 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Status from "../constants/status";
 
-const JavaEditor = () => {
-    const defaultValue = "// write down your code here";
-    const editorRef = useRef(null);
-
-    const [status, setStatus] = useState(Status.WAITING);
-    const [lineCount, setLineCount] = useState();
-
+const JavaEditor = ({
+    defaultValue,
+    status,
+    handleSubmit,
+    handleRefresh,
+    handleEditorDidMount,
+    handleOnChange,
+}) => {
     function getStatusText(status) {
         switch (status) {
             case Status.WAITING:
@@ -27,31 +28,6 @@ const JavaEditor = () => {
             default:
                 return "코드를 입력해주세요.";
         }
-    }
-
-    function handleEditorDidMount(editor, monaco) {
-        // set editorRef.current to editor
-        setLineCount(editor.getModel().getLineCount());
-        editorRef.current = editor;
-    }
-
-    function handleClick() {
-        // send code to backend
-        setStatus(Status.PROGRESS);
-        setTimeout(() => {
-            if (true) {
-                setStatus(Status.SUCCESS);
-            }
-        }, 2000);
-        // console.log(editorRef.current.getValue());
-        if (lineCount > 1000) {
-            alert("1000줄 이내로 작성해주시길 바랍니다.");
-        } else {
-            //axios
-        }
-    }
-    function handleRefresh() {
-        editorRef.current.setValue(defaultValue);
     }
 
     return (
@@ -72,17 +48,13 @@ const JavaEditor = () => {
                         readOnlyMessage: { value: "코드를 실행중입니다." },
                         wordWrap: true,
                     }}
-                    onChange={() => {
-                        setLineCount(
-                            editorRef.current.getModel().getLineCount()
-                        );
-                    }}
+                    onChange={handleOnChange}
                     onMount={handleEditorDidMount}
                 />
             </EditorContainer>
             <BtnContainer>
                 <SubmitBtn
-                    onClick={handleClick}
+                    onClick={handleSubmit}
                     $onProgress={status === Status.PROGRESS}
                 >
                     Submit
