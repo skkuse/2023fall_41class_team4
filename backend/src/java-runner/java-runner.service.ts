@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ExecutionResult } from '../db/execution-result.entity';
+import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { execSync } from 'child_process';
-import { ExecutionStatus, Status } from 'src/db/execution-status.enum';
-import { Code } from 'src/db/code.entity';
+import { ExecutionStatus, Status } from 'src/db/entity/execution-status.enum';
+import { Code } from 'src/db/entity/code.entity';
 import { KilledError, RuntimeError } from 'src/dto/java-error.exception';
 import { ConfigService } from '@nestjs/config';
 import { readFile } from 'fs/promises';
-import { CodeService } from 'src/code/code.service';
+import { DBRepository } from 'src/db/db.repository';
 
 @Injectable()
 export class JavaRunnerService {
@@ -15,7 +15,7 @@ export class JavaRunnerService {
   private readonly coreUsage: number;
 
   constructor(
-    private readonly codeService: CodeService,
+    private readonly repository: DBRepository,
     configService: ConfigService,
   ) {
     this.coreUsage = configService.get<number>('CONST_CORE_USAGE');
@@ -33,7 +33,7 @@ export class JavaRunnerService {
     const memUsage = _memUsage === undefined ? -1 : Number(_memUsage);
 
     // 실행 결과 저장
-    const executionResult = await this.codeService.saveExecutionResult(
+    const executionResult = await this.repository.saveExecutionResult(
       code.id,
       {
         status: ExecutionStatus[Status[status]],

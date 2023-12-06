@@ -1,12 +1,11 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { ExecutionResult } from '../db/execution-result.entity';
+import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Code } from 'src/db/code.entity';
+import { Code } from 'src/db/entity/code.entity';
 
 @Injectable()
-export class CodeService {
+export class DBRepository {
   private readonly config;
 
   constructor(
@@ -14,15 +13,7 @@ export class CodeService {
     private codeRepository: Repository<Code>,
     @InjectRepository(ExecutionResult)
     private executionRepository: Repository<ExecutionResult>,
-    configService: ConfigService,
-  ) {
-    const cores = configService.get<number>('NUM_OF_CORES');
-    const power = configService.get<number>('POWER_OF_CORE');
-    const ci = configService.get<number>('CARBON_INTENSITY');
-
-    const pue = configService.get<number>('PUE');
-    this.config = { powerOfCores: cores * power, pue, ci };
-  }
+  ) {}
 
   async saveCode(input: string): Promise<Code> {
     const size = new Blob([input]).size;
@@ -33,19 +24,6 @@ export class CodeService {
     }
     const data = this.codeRepository.create({ code: input });
     return await this.codeRepository.save(data);
-  }
-
-  async calculateEmission(execution: ExecutionResult): Promise<number> {
-    const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
-    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
-
-    return (
-      (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
-      runtime *
-      this.config.pue *
-      0.001 *
-      this.config.ci
-    );
   }
 
   async updateCode(code: Partial<Code>) {

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JavaRunnerService } from './java-runner.service';
-import { CodeModule } from 'src/code/code.module';
+import { DBModule } from 'src/db/db.module';
 
 @Module({
-  imports: [CodeModule],
+  imports: [DBModule],
   providers: [JavaRunnerService],
   exports: [JavaRunnerService],
 })

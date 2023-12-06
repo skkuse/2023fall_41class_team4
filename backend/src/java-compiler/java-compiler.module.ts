@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JavaCompilerService } from './java-compiler.service';
-import { CodeModule } from 'src/code/code.module';
+import { DBModule } from 'src/db/db.module';
 
 @Module({
-  imports: [CodeModule],
+  imports: [DBModule],
   providers: [JavaCompilerService],
   exports: [JavaCompilerService],
 })

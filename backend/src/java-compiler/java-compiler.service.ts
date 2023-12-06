@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
-import { Code } from 'src/db/code.entity';
+import { Code } from 'src/db/entity/code.entity';
 import { CompileError } from 'src/dto/java-error.exception';
 import { mkdir, writeFile } from 'fs/promises';
-import { CodeService } from 'src/code/code.service';
-import { ExecutionStatus } from 'src/db/execution-status.enum';
+import { ExecutionStatus } from 'src/db/entity/execution-status.enum';
+import { DBRepository } from 'src/db/db.repository';
 
 @Injectable()
 export class JavaCompilerService {
   private readonly baseDir = '/tmp/sandbox';
   private readonly filename = 'Main.java';
 
-  constructor(private readonly codeService: CodeService) {}
+  constructor(private readonly repository: DBRepository) {}
 
   async compile(code: Code) {
     const path = `${this.baseDir}/${code.id}`;
@@ -21,7 +21,7 @@ export class JavaCompilerService {
     try {
       execSync(`javac -d ${path} ${path}/${this.filename}`);
     } catch (error) {
-      await this.codeService.saveExecutionResult(
+      await this.repository.saveExecutionResult(
         code.id,
         {
           status: ExecutionStatus.COMPILE_ERROR,
