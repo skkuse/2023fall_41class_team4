@@ -5,8 +5,8 @@ import { faEnvira } from "@fortawesome/free-brands-svg-icons";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import { faTv } from "@fortawesome/free-solid-svg-icons";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
-import { faElevator } from "@fortawesome/free-solid-svg-icons";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
+import { faTrainSubway } from "@fortawesome/free-solid-svg-icons";
+import { faAppleWhole } from "@fortawesome/free-solid-svg-icons";
 
 const response = {
   //dummy data
@@ -21,8 +21,8 @@ const response = {
   power: "14.04kWh",
   tv: "3h",
   car: "10km",
-  elevator: "20층",
-  a4: "30장",
+  subway: "20m",
+  apple: "30g",
 };
 
 const CardComponent = () => {
@@ -40,11 +40,15 @@ const CardComponent = () => {
           value={response.car}
         />
         <SmallCard
-          icon={faElevator}
-          name="엘리베이터 층수 이동"
-          value={response.elevator}
+          icon={faTrainSubway}
+          name="지하철 이동 거리"
+          value={response.subway}
         />
-        <SmallCard icon={faCopy} name="A4 용지 사용량" value={response.a4} />
+        <SmallCard
+          icon={faAppleWhole}
+          name="사과 생산량"
+          value={response.apple}
+        />
       </SmallContainer>
     </BoxWrapper>
   );
