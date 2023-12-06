@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConverterService } from './converter.service';
-import { Emission } from '../db/emission.entity';
+import { Emission } from '../db/entity/emission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

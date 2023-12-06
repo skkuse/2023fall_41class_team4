@@ -1,13 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'emission' })
+@Unique(['name'])
 export class Emission {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({})
   name: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'double' })
   emission: number;
 }

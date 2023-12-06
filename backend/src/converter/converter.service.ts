@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Emission } from '../db/emission.entity';
+import { Emission } from '../db/entity/emission.entity';
 
 /**
  * @file carbon-emissions-converter.service.ts
