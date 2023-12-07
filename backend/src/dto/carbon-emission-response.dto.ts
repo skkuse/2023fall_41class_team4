@@ -45,7 +45,7 @@ export class CarbonEmissionResponseDto {
     memoryUsage: number,
   ) {
     this.runtime = runtime.toFixed(2) + 'ms';
-    this.memoryUsage = memoryUsage.toString(2) + 'MB';
+    this.memoryUsage = memoryUsage.toFixed(2) + 'MB';
     this.carbonFootPrint = dto.carbonFootPrint.toFixed(2) + 'µgCO2e';
     this.energy = dto.energy.toFixed(2) + 'µWh';
     this.tvWatchingTime = dto.tvWatchingTime.toFixed(2) + 'μs';

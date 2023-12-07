@@ -7,7 +7,7 @@ import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 import { ExecutionResult } from './db/entity/execution-result.entity';
 import { ConfigService } from '@nestjs/config';
 import {
-  KILOBYTE_TO_MEGABYTE,
+  BYTE_TO_MEGABYTE,
   SECOND_TO_MILLISECOND,
 } from './converter/converter.constants';
 
@@ -52,7 +52,7 @@ export class AppService {
     return new CarbonEmissionResponseDto(
       this.converterService.convertCarbonEmission(emission),
       executionResult.runtime * SECOND_TO_MILLISECOND,
-      executionResult.memUsage / KILOBYTE_TO_MEGABYTE,
+      executionResult.memUsage / BYTE_TO_MEGABYTE,
     );
   }
 

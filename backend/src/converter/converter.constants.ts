@@ -8,4 +8,4 @@ export const KILO_TO_MICRO = 1_000 * MICRO;
 export const KILO_TO_MILLI = MICRO;
 export const HOUR_TO_MICROSECOND = 60 * 60 * MICRO;
 export const SECOND_TO_MILLISECOND = 1_000;
-export const KILOBYTE_TO_MEGABYTE = 1024;
+export const BYTE_TO_MEGABYTE = 1024 * 1024;
