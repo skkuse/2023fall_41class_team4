@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMediaQuery } from "react-responsive";
 
 const HowItWorks = () => {
-  const isDesktopOrMobile = useMediaQuery({ query: "(max-width:767px)" });
+  const isDesktopOrMobile = useMediaQuery({ query: "(max-width:830px)" });
   const inlineFormula = ` E = t * (n_c * P_c * u_c + n_m * P_m) * PUE * 0.001`;
   return (
     <HowItWorksContainer>
