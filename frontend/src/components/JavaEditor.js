@@ -1,25 +1,19 @@
-import React, { useRef, useState } from "react";
+// import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import styled from "styled-components";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// status 텍스트 변경을 위한 상수
-const Status = {
-  WAITING: "WAITING",
-  PROGRESS: "PROGRESS",
-  SUCCESS: "SUCCESS",
-  BUILDERROR: "BUILDERROR",
-  COMPILEERROR: "COMPILEERROR",
-};
+import Status from "../constants/status";
 
-const JavaEditor = () => {
-  const defaultValue = "// write down your code here";
-  const editorRef = useRef(null);
-
-  const [status, setStatus] = useState(Status.WAITING);
-  const [lineCount, setLineCount] = useState();
-
+const JavaEditor = ({
+  defaultValue,
+  status,
+  handleSubmit,
+  handleRefresh,
+  handleEditorDidMount,
+  handleOnChange,
+}) => {
   function getStatusText(status) {
     switch (status) {
       case Status.WAITING:
@@ -31,34 +25,15 @@ const JavaEditor = () => {
       case Status.SUCCESS:
         return "코드가 성공적으로 컴파일 되었습니다!";
 
+      case Status.RUNTIMEERROR:
+        return "코드 실행 중 오류가 발생했습니다.";
+
+      case Status.COMPILEERROR:
+        return "코드 컴파일 중 오류가 발생했습니다.";
+
       default:
         return "코드를 입력해주세요.";
     }
-  }
-
-  function handleEditorDidMount(editor, monaco) {
-    // set editorRef.current to editor
-    setLineCount(editor.getModel().getLineCount());
-    editorRef.current = editor;
-  }
-
-  function handleClick() {
-    // send code to backend
-    setStatus(Status.PROGRESS);
-    setTimeout(() => {
-      if (true) {
-        setStatus(Status.SUCCESS);
-      }
-    }, 2000);
-    // console.log(editorRef.current.getValue());
-    if (lineCount > 1000) {
-      alert("1000줄 이내로 작성해주시길 바랍니다.");
-    } else {
-      //axios
-    }
-  }
-  function handleRefresh() {
-    editorRef.current.setValue(defaultValue);
   }
 
   return (
@@ -79,24 +54,20 @@ const JavaEditor = () => {
             readOnlyMessage: { value: "코드를 실행중입니다." },
             wordWrap: true,
           }}
-          onChange={() => {
-            setLineCount(editorRef.current.getModel().getLineCount());
-          }}
+          onChange={handleOnChange}
           onMount={handleEditorDidMount}
         />
       </EditorContainer>
       <BtnContainer>
-        <div>
-          <SubmitBtn
-            onClick={handleClick}
-            $onProgress={status === Status.PROGRESS}
-          >
-            Submit
-          </SubmitBtn>
-          <RefreshBtn onClick={handleRefresh}>
-            <FontAwesomeIcon icon={faRefresh} className="icon" />
-          </RefreshBtn>
-        </div>
+        <SubmitBtn
+          onClick={handleSubmit}
+          $onProgress={status === Status.PROGRESS}
+        >
+          Submit
+        </SubmitBtn>
+        <RefreshBtn onClick={handleRefresh}>
+          <FontAwesomeIcon icon={faRefresh} className="icon" />
+        </RefreshBtn>
         <StatusText $status={status}>{getStatusText(status)}</StatusText>
       </BtnContainer>
     </>
@@ -172,14 +143,14 @@ const RefreshBtn = styled.button`
 const StatusText = styled.p`
   font-size: 1rem;
   font-weight: bold;
-  /* font-family: Inter; */
   @media screen and (max-width: 700px) {
     margin-bottom: 2rem;
   }
   color: ${(props) =>
-    props.$status === Status.BUILDERROR || Status.COMPILEERROR
-      ? "#38C972"
-      : "#C94138"};
+    props.$status === Status.RUNTIMEERROR ||
+    props.$status === Status.COMPILEERROR
+      ? "#C94138"
+      : "#38C972"};
 `;
 
 export default JavaEditor;

@@ -9,34 +9,22 @@ import { faTrainSubway } from "@fortawesome/free-solid-svg-icons";
 import { faAppleWhole } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from "react-responsive";
 
-const response = {
-  //dummy data
-  runtime: "0.3h",
-  coreCount: "2",
-  cpuWatt: "15W",
-  cpuPercent: "80%",
-  memory: "3GB",
-  wattPerGB: "0.3725W/GB",
-  efficiency: "1.125",
-  co2: "3.01µgCO2e",
-  power: "6.91µWh",
-  tv: "34.32μs",
-  car: "17.21µm",
-  subway: "15.71mm",
-  apple: "26.43µg",
-};
-
-const CardComponent = () => {
+const CardComponent = ({ response }) => {
   const isTablet = useMediaQuery({ query: "(max-width:1000px)" });
   const isMobile = useMediaQuery({ query: "(max-width:500px)" });
+  console.log("res is", response);
 
   return (
     <BoxWrapper>
       {isTablet ? (
         <>
           <MobileContainer>
-            <BigCard icon={faEnvira} name="탄소 배출량" value={response.co2} />
-            <BigCard icon={faBolt} name="전력 소모량" value={response.power} />
+            <BigCard
+              icon={faEnvira}
+              name="탄소 배출량"
+              value={response.carbonFootPrint}
+            />
+            <BigCard icon={faBolt} name="전력 소모량" value={response.energy} />
             {!isMobile ? (
               <>
                 <BigContainer className="not">
@@ -44,13 +32,13 @@ const CardComponent = () => {
                     className="margin"
                     icon={faTv}
                     name="TV 시청 시간"
-                    value={response.tv}
+                    value={response.tvWatchingTime}
                   />
                   <SmallCard
                     className="margin"
                     icon={faCarSide}
                     name="승용차 주행 거리"
-                    value={response.car}
+                    value={response.passengerCarMileage}
                   />
                 </BigContainer>
                 <BigContainer className="not">
@@ -58,33 +46,37 @@ const CardComponent = () => {
                     className="margin"
                     icon={faTrainSubway}
                     name="지하철 이동 거리"
-                    value={response.subway}
+                    value={response.subwayTravelDistance}
                   />
                   <SmallCard
                     className="margin"
                     icon={faAppleWhole}
                     name="사과 생산량"
-                    value={response.apple}
+                    value={response.appleProduction}
                   />
                 </BigContainer>
               </>
             ) : (
               <>
-                <BigCard icon={faTv} name="TV 시청 시간" value={response.tv} />
+                <BigCard
+                  icon={faTv}
+                  name="TV 시청 시간"
+                  value={response.tvWatchingTime}
+                />
                 <BigCard
                   icon={faCarSide}
                   name="승용차 주행 거리"
-                  value={response.car}
+                  value={response.passengerCarMileage}
                 />
                 <BigCard
                   icon={faTrainSubway}
                   name="지하철 이동 거리"
-                  value={response.subway}
+                  value={response.subwayTravelDistance}
                 />
                 <BigCard
                   icon={faAppleWhole}
                   name="사과 생산량"
-                  value={response.apple}
+                  value={response.appleProduction}
                 />
               </>
             )}
@@ -93,25 +85,33 @@ const CardComponent = () => {
       ) : (
         <>
           <BigContainer>
-            <BigCard icon={faEnvira} name="탄소 배출량" value={response.co2} />
-            <BigCard icon={faBolt} name="전력 소모량" value={response.power} />
+            <BigCard
+              icon={faEnvira}
+              name="탄소 배출량"
+              value={response.carbonFootPrint}
+            />
+            <BigCard icon={faBolt} name="전력 소모량" value={response.energy} />
           </BigContainer>
           <SmallContainer>
-            <SmallCard icon={faTv} name="TV 시청 시간" value={response.tv} />
+            <SmallCard
+              icon={faTv}
+              name="TV 시청 시간"
+              value={response.tvWatchingTime}
+            />
             <SmallCard
               icon={faCarSide}
               name="승용차 주행 거리"
-              value={response.car}
+              value={response.passengerCarMileage}
             />
             <SmallCard
               icon={faTrainSubway}
               name="지하철 이동 거리"
-              value={response.subway}
+              value={response.subwayTravelDistance}
             />
             <SmallCard
               icon={faAppleWhole}
               name="사과 생산량"
-              value={response.apple}
+              value={response.appleProduction}
             />
           </SmallContainer>
         </>

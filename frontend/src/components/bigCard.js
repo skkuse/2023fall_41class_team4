@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const BigCard = ({ icon, name, value }) => {
   const regExp = /[0-9]/g;
+  // console.log(value);
   // console.log(regExp.test(value[4]));
   // console.log(value.charAt(value.length - 3));
   return (
@@ -12,12 +13,12 @@ const BigCard = ({ icon, name, value }) => {
         <span>{name}</span>
       </div>
       <div>
-        {!regExp.test(value.charAt(4)) ? (
+        {!regExp.test(value.slice(4, 5)) ? (
           <ValueBox>{value.slice(0, 4)}</ValueBox>
         ) : (
           <ValueBox>{value.slice(0, 5)}</ValueBox>
         )}
-        {!regExp.test(value.charAt(value.length - 3)) ? (
+        {!regExp.test(value.slice(-3, -2)) ? (
           <UnitBox>/{value.slice(4)}</UnitBox>
         ) : (
           <UnitBox>/{value.slice(-2)}</UnitBox>
