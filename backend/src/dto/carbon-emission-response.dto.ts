@@ -6,6 +6,9 @@ import { CarbonEmissionConvertedResultDto } from './carbon-emission-converted-re
  * @author Min Ho CHO
  */
 export class CarbonEmissionResponseDto {
+  @ApiProperty({ description: '런타임', example: '20.21ms' })
+  runtime: string;
+
   @ApiProperty({ description: '탄소 배출량', example: '20.02µgCO2e' })
   carbonFootPrint: string;
 
@@ -33,7 +36,8 @@ export class CarbonEmissionResponseDto {
   })
   readonly appleProduction: string;
 
-  constructor(dto: CarbonEmissionConvertedResultDto) {
+  constructor(dto: CarbonEmissionConvertedResultDto, runtime: number) {
+    this.runtime = runtime.toFixed(2) + 'ms';
     this.carbonFootPrint = dto.carbonFootPrint.toFixed(2) + 'µgCO2e';
     this.energy = dto.energy.toFixed(2) + 'µWh';
     this.tvWatchingTime = dto.tvWatchingTime.toFixed(2) + 'μs';
