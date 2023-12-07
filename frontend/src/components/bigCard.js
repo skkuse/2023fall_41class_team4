@@ -2,6 +2,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 const BigCard = ({ icon, name, value }) => {
+  const regExp = /[0-9]/g;
+  // console.log(regExp.test(value[4]));
+  // console.log(value.charAt(value.length - 3));
   return (
     <CardContainer>
       <div>
@@ -9,8 +12,16 @@ const BigCard = ({ icon, name, value }) => {
         <span>{name}</span>
       </div>
       <div>
-        <ValueBox>{value.slice(0, 5)}</ValueBox>
-        <UnitBox>/{value.slice(-2)}</UnitBox>
+        {!regExp.test(value.charAt(4)) ? (
+          <ValueBox>{value.slice(0, 4)}</ValueBox>
+        ) : (
+          <ValueBox>{value.slice(0, 5)}</ValueBox>
+        )}
+        {!regExp.test(value.charAt(value.length - 3)) ? (
+          <UnitBox>/{value.slice(4)}</UnitBox>
+        ) : (
+          <UnitBox>/{value.slice(-2)}</UnitBox>
+        )}
       </div>
     </CardContainer>
   );
