@@ -8,6 +8,8 @@ import HardwareSpec from "./components/hardwareSpec";
 import JavaEditor from "./components/javaEditor";
 import CardComponent from "./components/cardContainer";
 import Status from "./constants/status";
+import axios from "axios";
+import API from "./constants/api";
 
 function App() {
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
@@ -16,31 +18,47 @@ function App() {
 
     const editorRef = useRef(null);
 
+    // response state
+    const [response, setResponse] = useState(null);
+
     const [status, setStatus] = useState(Status.WAITING);
 
     const [lineCount, setLineCount] = useState();
 
-    function handleSubmit() {
-        // send code to backend
-        setStatus(Status.PROGRESS);
-        setTimeout(() => {
-            if (true) {
-                setStatus(Status.SUCCESS);
-            }
-        }, 2000);
-        // console.log(editorRef.current.getValue());
-        if (lineCount > 1000) {
-            alert("1000줄 이내로 작성해주시길 바랍니다.");
-        } else {
-            // alert(editorRef.current.getValue());
-            //axios
+    async function fetchResult(value) {
+        try {
+            const response = await axios.post("/carbon-emission", {
+                code: value,
+            });
+            setStatus(Status.SUCCESS);
+            setResponse(response.data);
+            console.log(response.data);
+        } catch (e) {
+            setStatus(Status.COMPILEERROR);
+            setResponse(e.response.data);
         }
     }
-    function handleRefresh() {
-        editorRef.current.setValue(defaultValue);
+
+    async function handleSubmit() {
+        // send code to backend
+        setStatus(Status.PROGRESS);
+        // console.log(editorRef.current.getValue());
+        if (lineCount > 1000) {
+            setStatus(Status.WAITING);
+            alert("1000줄 이내로 작성해주시길 바랍니다.");
+        } else {
+            //axios
+            await fetchResult(editorRef.current.getValue());
+        }
     }
 
-    function handleEditorDidMount(editor, monaco) {
+    function handleRefresh() {
+        editorRef.current.setValue(defaultValue);
+        setStatus(Status.WAITING);
+        setResponse(null);
+    }
+
+    function handleEditorDidMount(editor, _) {
         // set editorRef.current to editor
         setLineCount(editor.getModel().getLineCount());
         editorRef.current = editor;
@@ -49,6 +67,7 @@ function App() {
     function handleOnChange() {
         setLineCount(editorRef.current.getModel().getLineCount());
     }
+
     return (
         <>
             <Header />
@@ -62,9 +81,14 @@ function App() {
                     handleEditorDidMount={handleEditorDidMount}
                     handleOnChange={handleOnChange}
                 />
-                <HardwareSpec />
-                <HowItWorks />
-                <CardComponent />
+                {status !== Status.SUCCESS && <HowItWorks />}
+                {/* Component에 각각 response 넘겨주기 */}
+                {status === Status.SUCCESS && (
+                    <>
+                        <HardwareSpec />
+                        <CardComponent />
+                    </>
+                )}
             </Wrapper>
             <Footer />
         </>

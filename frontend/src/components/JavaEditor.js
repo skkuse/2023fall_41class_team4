@@ -25,6 +25,12 @@ const JavaEditor = ({
             case Status.SUCCESS:
                 return "코드가 성공적으로 컴파일 되었습니다!";
 
+            case Status.RUNTIMEERROR:
+                return "코드 실행 중 오류가 발생했습니다.";
+
+            case Status.COMPILEERROR:
+                return "코드 컴파일 중 오류가 발생했습니다.";
+
             default:
                 return "코드를 입력해주세요.";
         }
@@ -128,9 +134,10 @@ const StatusText = styled.p`
     font-weight: bold;
     font-family: Inter;
     color: ${(props) =>
-        props.$status === Status.BUILDERROR || Status.COMPILEERROR
-            ? "#38C972"
-            : "#C94138"};
+        props.$status === Status.RUNTIMEERROR ||
+        props.$status === Status.COMPILEERROR
+            ? "#C94138"
+            : "#38C972"};
 `;
 
 export default JavaEditor;
