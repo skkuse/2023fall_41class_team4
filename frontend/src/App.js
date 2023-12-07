@@ -9,7 +9,6 @@ import JavaEditor from "./components/javaEditor";
 import CardComponent from "./components/cardContainer";
 import Status from "./constants/status";
 import axios from "axios";
-import API from "./constants/api";
 
 function App() {
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
