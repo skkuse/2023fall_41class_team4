@@ -10,12 +10,12 @@ const response = {
   memory: "3GB",
   wattPerGB: "0.3725W/GB",
   efficiency: "1.125",
-  co2: "14.04kg",
-  power: "14.04kWh",
-  tv: "3h",
-  car: "10km",
-  elevator: "20층",
-  a4: "30장",
+  co2: "3.01µgCO2e",
+  power: "6.91µWh",
+  tv: "34.32μs",
+  car: "17.21µm",
+  elevator: "15.71mm",
+  a4: "26.43µg",
 };
 
 const HardwareSpec = () => {

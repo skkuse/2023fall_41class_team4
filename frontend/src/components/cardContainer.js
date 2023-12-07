@@ -18,12 +18,12 @@ const response = {
   memory: "3GB",
   wattPerGB: "0.3725W/GB",
   efficiency: "1.125",
-  co2: "14.0487kg",
-  power: "19.04kWh",
-  tv: "3.7h",
-  car: "10.123m",
-  subway: "20.1387m",
-  apple: "30g",
+  co2: "3.01µgCO2e",
+  power: "6.91µWh",
+  tv: "34.32μs",
+  car: "17.21µm",
+  elevator: "15.71mm",
+  a4: "26.43µg",
 };
 
 const CardComponent = () => {
