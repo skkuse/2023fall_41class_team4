@@ -8,23 +8,6 @@ import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import { faTrainSubway } from "@fortawesome/free-solid-svg-icons";
 import { faAppleWhole } from "@fortawesome/free-solid-svg-icons";
 
-// const response = {
-//   //dummy data
-//   runtime: "0.3h",
-//   coreCount: "2",
-//   cpuWatt: "15W",
-//   cpuPercent: "80%",
-//   memory: "3GB",
-//   wattPerGB: "0.3725W/GB",
-//   efficiency: "1.125",
-//   co2: "14.04kg",
-//   power: "14.04kWh",
-//   tv: "3h",
-//   car: "10km",
-//   subway: "20m",
-//   apple: "30g",
-// };
-
 const CardComponent = ({ response }) => {
     return (
         <BoxWrapper>

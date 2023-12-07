@@ -32,6 +32,7 @@ function App() {
             setStatus(Status.SUCCESS);
             setResponse(response.data);
         } catch (e) {
+            // compile error or runtime error
             setStatus(Status.COMPILEERROR);
             setResponse(e.response.data);
         }
@@ -80,7 +81,6 @@ function App() {
                     handleOnChange={handleOnChange}
                 />
                 {status !== Status.SUCCESS && <HowItWorks />}
-                {/* Component에 각각 response 넘겨주기 */}
                 {status === Status.SUCCESS && (
                     <>
                         <HardwareSpec />
