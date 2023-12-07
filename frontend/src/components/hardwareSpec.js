@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 
 const responseDefault = {
   coreCount: "1",
-  cpuWatt: "145W",
+  cpuWatt: "8W",
   cpuPercent: "80%",
   memory: "2GB",
   wattPerGB: "0.3725W/GB",
