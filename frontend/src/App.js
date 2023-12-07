@@ -13,7 +13,8 @@ import axios from "axios";
 function App() {
   //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
 
-  const defaultValue = "// write down your code here";
+  const defaultValue =
+    "// write down your code here\n//Your class name must be main";
 
   const editorRef = useRef(null);
 
