@@ -34,11 +34,11 @@ export class CarbonEmissionResponseDto {
   readonly appleProduction: string;
 
   constructor(dto: CarbonEmissionConvertedResultDto) {
-    this.carbonFootPrint = dto.carbonFootPrint + 'µgCO2e';
-    this.energy = dto.energy + 'µWh';
-    this.tvWatchingTime = dto.tvWatchingTime + 'μs';
-    this.passengerCarMileage = dto.passengerCarMileage + 'µm';
-    this.subwayTravelDistance = dto.subwayTravelDistance + 'mm';
-    this.appleProduction = dto.appleProduction + 'µg';
+    this.carbonFootPrint = dto.carbonFootPrint.toFixed(2) + 'µgCO2e';
+    this.energy = dto.energy.toFixed(2) + 'µWh';
+    this.tvWatchingTime = dto.tvWatchingTime.toFixed(2) + 'μs';
+    this.passengerCarMileage = dto.passengerCarMileage.toFixed(2) + 'µm';
+    this.subwayTravelDistance = dto.subwayTravelDistance.toFixed(2) + 'mm';
+    this.appleProduction = dto.appleProduction.toFixed(2) + 'µg';
   }
 }
