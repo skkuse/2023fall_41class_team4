@@ -22,8 +22,8 @@ const response = {
   power: "6.91µWh",
   tv: "34.32μs",
   car: "17.21µm",
-  elevator: "15.71mm",
-  a4: "26.43µg",
+  subway: "15.71mm",
+  apple: "26.43µg",
 };
 
 const CardComponent = () => {
