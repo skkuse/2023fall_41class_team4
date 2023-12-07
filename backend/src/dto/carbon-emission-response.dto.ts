@@ -18,7 +18,7 @@ export class CarbonEmissionResponseDto {
   @ApiProperty({ description: '전력 소모량', example: '30.02µWh' })
   readonly energy: string;
 
-  @ApiProperty({ description: 'TV 탄소 배출량과의 비교값', example: '25.21μs' })
+  @ApiProperty({ description: 'TV 탄소 배출량과의 비교값', example: '25.21ms' })
   readonly tvWatchingTime: string;
 
   @ApiProperty({

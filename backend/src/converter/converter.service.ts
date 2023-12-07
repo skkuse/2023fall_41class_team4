@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
 import {
   CONVERTER_CONFIG,
-  HOUR_TO_MICROSECOND,
+  HOUR_TO_MILLISECOND,
   KILO_TO_MICRO,
   KILO_TO_MILLI,
   MICRO,
@@ -40,10 +40,10 @@ export class ConverterService {
     const energy: number = (carbonEmission / this.config.CI) * KILO_TO_MICRO;
 
     // 3. TV 시청 시간 계산
-    // μs 단위
+    // ms 단위
     const tvWatchingTime: number =
       (carbonEmission / this.config[Reference.TV_WATCH_TIME]) *
-      HOUR_TO_MICROSECOND;
+      HOUR_TO_MILLISECOND;
 
     // 4. 승용차 주행 거리 계산
     // µm 단위
