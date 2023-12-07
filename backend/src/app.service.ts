@@ -57,8 +57,8 @@ export class AppService {
   }
 
   async applyGreenAlgorithm(execution: ExecutionResult): Promise<number> {
-    const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
-    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
+    const runtime = execution.runtime / 60 / 60; // s to h
+    const memUsage = execution.memUsage / 1024 / 1024; // KB to GB
 
     return (
       (this.config.POC * execution.coreUsage + memUsage * 0.3725) *
