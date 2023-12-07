@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityNotFoundError, In, Repository } from 'typeorm';
 import { Code } from 'src/db/entity/code.entity';
+import { Emission } from './entity/emission.entity';
 
 @Injectable()
 export class DBRepository {
@@ -11,6 +12,8 @@ export class DBRepository {
     private codeRepository: Repository<Code>,
     @InjectRepository(ExecutionResult)
     private executionRepository: Repository<ExecutionResult>,
+    @InjectRepository(Emission)
+    private emissionRepository: Repository<Emission>,
   ) {}
 
   async saveCode(input: string): Promise<Code> {
@@ -33,5 +36,21 @@ export class DBRepository {
       await this.updateCode({ id, executionResult: executionResult });
     }
     return executionResult;
+  }
+
+  async getEmissions(names: string[]) {
+    const emissions = await this.emissionRepository.find({
+      select: {
+        name: true,
+        emission: true,
+      },
+      where: {
+        name: In(names),
+      },
+    });
+    if (emissions.length !== names.length) {
+      throw new EntityNotFoundError(Emission, names);
+    }
+    return emissions;
   }
 }
