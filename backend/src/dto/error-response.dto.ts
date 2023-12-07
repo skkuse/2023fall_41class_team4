@@ -6,7 +6,7 @@ type JavaErrors =
   | 'RuntimeError'
   | 'KilledError';
 
-export class ErrorResponseDTO<T> {
+export class ErrorResponseDTO {
   @ApiProperty({ description: '상태 코드', example: 422 })
   readonly statusCode: number;
 

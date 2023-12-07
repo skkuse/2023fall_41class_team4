@@ -12,23 +12,23 @@ export class CarbonEmissionConvertedResultDto {
 
   readonly passengerCarMileage: number;
 
-  readonly elevatorFloorMovement: number;
+  readonly subwayTravelDistance: number;
 
-  readonly a4PaperUsage: number;
+  readonly appleProduction: number;
 
   constructor(
     carbonFootPrint: number,
     energy: number,
     tvWatchingTime: number,
     passengerCar: number,
-    elevatorFloorMovement: number,
-    a4PaperUsage: number,
+    subwayTravelDistance: number,
+    appleProduction: number,
   ) {
     this.carbonFootPrint = carbonFootPrint;
     this.energy = energy;
     this.tvWatchingTime = tvWatchingTime;
     this.passengerCarMileage = passengerCar;
-    this.elevatorFloorMovement = elevatorFloorMovement;
-    this.a4PaperUsage = a4PaperUsage;
+    this.subwayTravelDistance = subwayTravelDistance;
+    this.appleProduction = appleProduction;
   }
 }

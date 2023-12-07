@@ -12,8 +12,8 @@ export default new DataSource({
   username: configService.get('DATABASE_USER'),
   password: configService.get('DATABASE_PASS'),
   database: configService.get('DATABASE_NAME'),
-  entities: ['src/db/*.entity.ts'],
-  migrations: ['src/db/migrations/*.ts'],
+  entities: ['src/db/entity/*.entity.ts'],
+  migrations: ['src/db/typeorm/migrations/*.ts'],
   migrationsTableName: 'migrations',
   synchronize: true,
 });

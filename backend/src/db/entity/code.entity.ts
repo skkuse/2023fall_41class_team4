@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { ExecutionResult } from './execution-result.entity';
 
 @Entity()
@@ -10,9 +16,9 @@ export class Code {
   code: string;
 
   @OneToOne(() => ExecutionResult)
-  @JoinColumn({ 'name': 'execution_result_id' })
-  executionResult!: ExecutionResult
+  @JoinColumn({ name: 'execution_result_id' })
+  executionResult!: ExecutionResult;
 
-  @Column()
+  @Column({ type: 'double' })
   emission!: number;
 }

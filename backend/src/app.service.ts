@@ -18,12 +18,12 @@ export class AppService {
     private readonly converterService: ConverterService,
     configService: ConfigService,
   ) {
-    const cores = configService.get<number>('NUM_OF_CORES');
-    const power = configService.get<number>('POWER_OF_CORE');
-    const ci = configService.get<number>('CARBON_INTENSITY');
+    const _cores = configService.get<number>('NUM_OF_CORES');
+    const _power = configService.get<number>('POWER_OF_CORE');
+    const CI = configService.get<number>('CARBON_INTENSITY');
 
-    const pue = configService.get<number>('PUE');
-    this.config = { powerOfCores: cores * power, pue, ci };
+    const PUE = configService.get<number>('PUE');
+    this.config = { POC: _cores * _power, PUE, CI };
   }
 
   async calculateEmission(input: string) {
@@ -55,11 +55,11 @@ export class AppService {
     const memUsage = execution.memUsage / 1024 / 1024; // B to GB
 
     return (
-      (this.config.powerOfCores * execution.coreUsage + memUsage * 0.3725) *
+      (this.config.POC * execution.coreUsage + memUsage * 0.3725) *
       runtime *
-      this.config.pue *
+      this.config.PUE *
       0.001 *
-      this.config.ci
+      this.config.CI
     );
   }
 }
