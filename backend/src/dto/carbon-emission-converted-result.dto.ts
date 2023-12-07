@@ -4,7 +4,7 @@
  * @author Min Ho CHO
  */
 export class CarbonEmissionConvertedResultDto {
-  carbonFootPrint: number;
+  readonly carbonFootPrint: number;
 
   readonly energy: number;
 
