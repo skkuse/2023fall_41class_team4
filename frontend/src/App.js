@@ -32,7 +32,6 @@ function App() {
             });
             setStatus(Status.SUCCESS);
             setResponse(response.data);
-            console.log(response.data);
         } catch (e) {
             setStatus(Status.COMPILEERROR);
             setResponse(e.response.data);
@@ -86,7 +85,7 @@ function App() {
                 {status === Status.SUCCESS && (
                     <>
                         <HardwareSpec />
-                        <CardComponent />
+                        <CardComponent response={response} />
                     </>
                 )}
             </Wrapper>
