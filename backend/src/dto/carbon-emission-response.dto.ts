@@ -44,13 +44,13 @@ export class CarbonEmissionResponseDto {
     runtime: number,
     memoryUsage: number,
   ) {
-    this.runtime = runtime.toFixed(2) + 'ms';
-    this.memoryUsage = memoryUsage.toFixed(2) + 'MB';
-    this.carbonFootPrint = dto.carbonFootPrint.toFixed(2) + 'µgCO2e';
-    this.energy = dto.energy.toFixed(2) + 'µWh';
-    this.tvWatchingTime = dto.tvWatchingTime.toFixed(2) + 'ms';
-    this.passengerCarMileage = dto.passengerCarMileage.toFixed(2) + 'µm';
-    this.subwayTravelDistance = dto.subwayTravelDistance.toFixed(2) + 'mm';
-    this.appleProduction = dto.appleProduction.toFixed(2) + 'µg';
+    this.runtime = runtime.toFixed(2) + ' ms';
+    this.memoryUsage = memoryUsage.toFixed(2) + ' MB';
+    this.carbonFootPrint = dto.carbonFootPrint.toFixed(2) + ' µgCO2e';
+    this.energy = dto.energy.toFixed(2) + ' µWh';
+    this.tvWatchingTime = dto.tvWatchingTime.toFixed(2) + ' ms';
+    this.passengerCarMileage = dto.passengerCarMileage.toFixed(2) + ' µm';
+    this.subwayTravelDistance = dto.subwayTravelDistance.toFixed(2) + ' mm';
+    this.appleProduction = dto.appleProduction.toFixed(2) + ' µg';
   }
 }
