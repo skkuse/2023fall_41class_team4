@@ -3,9 +3,6 @@ import styled from "styled-components";
 
 const BigCard = ({ icon, name, value }) => {
   const regExp = /[0-9]/g;
-  // console.log(value);
-  // console.log(regExp.test(value[4]));
-  // console.log(value.charAt(value.length - 3));
   return (
     <CardContainer>
       <div>

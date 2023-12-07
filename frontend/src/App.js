@@ -41,7 +41,6 @@ function App() {
   async function handleSubmit() {
     // send code to backend
     setStatus(Status.PROGRESS);
-    // console.log(editorRef.current.getValue());
     if (lineCount > 1000) {
       setStatus(Status.WAITING);
       alert("1000줄 이내로 작성해주시길 바랍니다.");

@@ -12,7 +12,6 @@ import { useMediaQuery } from "react-responsive";
 const CardComponent = ({ response }) => {
   const isTablet = useMediaQuery({ query: "(max-width:1000px)" });
   const isMobile = useMediaQuery({ query: "(max-width:500px)" });
-  console.log("res is", response);
 
   return (
     <BoxWrapper>

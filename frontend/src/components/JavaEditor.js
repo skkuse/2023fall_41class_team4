@@ -59,15 +59,17 @@ const JavaEditor = ({
         />
       </EditorContainer>
       <BtnContainer>
-        <SubmitBtn
-          onClick={handleSubmit}
-          $onProgress={status === Status.PROGRESS}
-        >
-          Submit
-        </SubmitBtn>
-        <RefreshBtn onClick={handleRefresh}>
-          <FontAwesomeIcon icon={faRefresh} className="icon" />
-        </RefreshBtn>
+        <div>
+          <SubmitBtn
+            onClick={handleSubmit}
+            $onProgress={status === Status.PROGRESS}
+          >
+            Submit
+          </SubmitBtn>
+          <RefreshBtn onClick={handleRefresh}>
+            <FontAwesomeIcon icon={faRefresh} className="icon" />
+          </RefreshBtn>
+        </div>
         <StatusText $status={status}>{getStatusText(status)}</StatusText>
       </BtnContainer>
     </>
