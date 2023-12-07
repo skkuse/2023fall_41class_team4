@@ -2,9 +2,11 @@ import styled from "styled-components";
 import MathJax from "react-mathjax";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMediaQuery } from "react-responsive";
 
 const HowItWorks = () => {
-  const inlineFormula = ` E = t * (n_c * P_c * u_c * n_m * P_m) * PUE * 0.001`;
+  const isDesktopOrMobile = useMediaQuery({ query: "(max-width:830px)" });
+  const inlineFormula = ` E = t * (n_c * P_c * u_c + n_m * P_m) * PUE * 0.001`;
   return (
     <HowItWorksContainer>
       <h1>How It Works?</h1>
@@ -32,6 +34,7 @@ const HowItWorks = () => {
             컴파일 성공 여부가 입력란 하단에 표시됩니다. 컴파일에 성공했다면,
             현재의 설명란에 서버의 스펙 정보와 탄소배출량이 표시됩니다. 코드를
             실행하기 전, 에러나 무한 루프 등의 요소가 없는지 확인해주세요.
+            코드의 클래스명은 반드시 Main이어야 합니다.
           </p>
         </div>
         <div>
@@ -43,9 +46,13 @@ const HowItWorks = () => {
             탄소배출량을 kg단위로, 전력 소모량을 kWh 단위로 계산하여 표시합니다.
             이때, 에너지는{" "}
           </p>
-          <MathJax.Provider>
-            <MathJax.Node inline formula={inlineFormula} />
-          </MathJax.Provider>
+          {isDesktopOrMobile ? (
+            <span>{inlineFormula}</span>
+          ) : (
+            <MathJax.Provider>
+              <MathJax.Node inline formula={inlineFormula} />
+            </MathJax.Provider>
+          )}
           <p>
             의 식을 통해 계산됩니다. t는 런타임, n_c는 코어 개수, P_c는 CPU 전력
             사용 비율, u_c는 CPU 사용 비율, n_m은 가용 메모리 크기, P_m은 메모리
@@ -78,8 +85,17 @@ const HowItWorksContainer = styled.div`
     font-weight: bold;
     font-size: 3rem;
   }
+  @media screen and (max-width: 700px) {
+    width: 80%;
+  }
+  @media screen and (max-width: 400px) {
+    > h1 {
+      font-size: 2.2rem;
+    }
+  }
+
 `;
-const BoxContainer = styled.ul`
+const BoxContainer = styled.div`
   background: #f8f8f8;
   h3 {
     color: #0fa958;
@@ -101,7 +117,19 @@ const BoxContainer = styled.ul`
     margin: 0 0.5rem 0 0;
   }
   border-radius: 2rem;
-  padding: 3rem;
+  /* padding: 3rem; */
+  width: 70vw;
   box-shadow: 1px 5px 5px 5px rgba(0, 0, 0, 0.2);
+  @media screen and (max-width: 700px) {
+    width: 90%;
+    padding: 1rem;
+    > div {
+      margin: 1rem;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    padding: 1rem;
+    width: 95%;
+  }
 `;
 export default HowItWorks;
