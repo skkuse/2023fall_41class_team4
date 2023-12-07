@@ -4,6 +4,7 @@ export const CONVERTER_CONFIG = 'CONVERTER_CONFIG';
 export const emissionReferences = Object.values(Reference);
 
 export const MICRO = 1_000_000;
+export const MILLI = 1_000;
 export const KILO_TO_MICRO = 1_000 * MICRO;
 export const KILO_TO_MILLI = MICRO;
 export const SECOND_TO_MILLISECOND = 1_000;
