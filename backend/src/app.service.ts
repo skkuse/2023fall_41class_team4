@@ -6,6 +6,10 @@ import { ConverterService } from './converter/converter.service';
 import { CarbonEmissionResponseDto } from './dto/carbon-emission-response.dto';
 import { ExecutionResult } from './db/entity/execution-result.entity';
 import { ConfigService } from '@nestjs/config';
+import {
+  KILOBYTE_TO_MEGABYTE,
+  SECOND_TO_MILLISECOND,
+} from './converter/converter.constants';
 
 @Injectable()
 export class AppService {
@@ -47,12 +51,14 @@ export class AppService {
 
     return new CarbonEmissionResponseDto(
       this.converterService.convertCarbonEmission(emission),
+      executionResult.runtime * SECOND_TO_MILLISECOND,
+      executionResult.memUsage / KILOBYTE_TO_MEGABYTE,
     );
   }
 
   async applyGreenAlgorithm(execution: ExecutionResult): Promise<number> {
-    const runtime = execution.runtime / 60 / 60 / 1000; // ms to h
-    const memUsage = execution.memUsage / 1024 / 1024; // B to GB
+    const runtime = execution.runtime / 60 / 60; // s to h
+    const memUsage = execution.memUsage / 1024 / 1024; // KB to GB
 
     return (
       (this.config.POC * execution.coreUsage + memUsage * 0.3725) *
