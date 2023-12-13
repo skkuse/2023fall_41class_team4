@@ -3,7 +3,8 @@ export enum Status {
   COMPILE_ERROR = 4,
   RUNTIME_ERROR = 1,
   TIME_LIMIT_EXCEEDED = 2,
-  MEMORY_LIMIT_EXCEEDED = 3,
+  // TODO: 추후 기능 확장 가능
+  // MEMORY_LIMIT_EXCEEDED = 3,
 }
 
 export enum ExecutionStatus {
@@ -11,5 +12,6 @@ export enum ExecutionStatus {
   COMPILE_ERROR = 'COMPILE_ERROR',
   RUNTIME_ERROR = 'RUNTIME_ERROR',
   TIME_LIMIT_EXCEEDED = 'TIME_LIMIT_EXCEEDED',
-  MEMORY_LIMIT_EXCEEDED = 'MEMORY_LIMIT_EXCEEDED',
+  // TODO: 추후 기능 확장 가능
+  // MEMORY_LIMIT_EXCEEDED = 'MEMORY_LIMIT_EXCEEDED',
 }
