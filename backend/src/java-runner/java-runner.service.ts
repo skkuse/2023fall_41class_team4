@@ -51,8 +51,6 @@ export class JavaRunnerService {
         throw new RuntimeError(message);
       case Status.TIME_LIMIT_EXCEEDED:
         throw new KilledError('시간');
-      case Status.COMPILE_ERROR:
-        throw new KilledError('메모리');
     }
     return executionResult;
   }
