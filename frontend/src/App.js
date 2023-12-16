@@ -17,7 +17,7 @@ function App() {
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
 
     const defaultValue =
-        "// Write down your code here\n// Your class name must be Main";
+        "// Write down your code here\n// Your class name must be Main\n public class Main {\npublic static void main(String[] args) {\n\n}\n}";
 
     const editorRef = useRef(null);
 
@@ -96,10 +96,9 @@ function App() {
                 maskClosable={true}
                 onClose={closeModal}
             >
-                {status === Status.COMPILEERROR ||
-                    (status === Status.RUNTIMEERROR && (
-                        <ModalMessage>{response.message}</ModalMessage>
-                    ))}
+                {status === (Status.COMPILEERROR || Status.RUNTIMEERROR) && (
+                    <ModalMessage>{response.message}</ModalMessage>
+                )}
             </Modal>
             <Header />
             <Wrapper>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,6 +38,7 @@ function Modal({
                             icon={faClose}
                             className="icon"
                             onClick={close}
+                            size="lg"
                         />
                     )}
                     {children}
