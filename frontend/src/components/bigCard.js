@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 const BigCard = ({ icon, name, value }) => {
-  const regExp = /[0-9]/g;
+  const valuearr = value.split(" ");
+  const isMobile = useMediaQuery({ query: "(max-width:450px)" });
+
   return (
     <CardContainer>
       <div>
@@ -10,15 +13,11 @@ const BigCard = ({ icon, name, value }) => {
         <span>{name}</span>
       </div>
       <div>
-        {!regExp.test(value.slice(4, 5)) ? (
-          <ValueBox>{value.slice(0, 4)}</ValueBox>
+        <ValueBox>{valuearr[0]}</ValueBox>
+        {isMobile ? (
+          <UnitBox>{valuearr[1]}</UnitBox>
         ) : (
-          <ValueBox>{value.slice(0, 5)}</ValueBox>
-        )}
-        {!regExp.test(value.slice(-3, -2)) ? (
-          <UnitBox>/{value.slice(4)}</UnitBox>
-        ) : (
-          <UnitBox>/{value.slice(-2)}</UnitBox>
+          <UnitBox>/{valuearr[1]}</UnitBox>
         )}
       </div>
     </CardContainer>
