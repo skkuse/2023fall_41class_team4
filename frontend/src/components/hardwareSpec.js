@@ -1,24 +1,15 @@
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
-const response = {
-  //dummy data
-  runtime: "0.3987s",
-  coreCount: "2",
-  cpuWatt: "15.341W",
-  cpuPercent: "80%",
-  memory: "3GB",
+const responseDefault = {
+  coreCount: "1",
+  cpuWatt: "8W",
+  memory: "2GB",
   wattPerGB: "0.3725W/GB",
-  efficiency: "1.125",
-  co2: "3.01µgCO2e",
-  power: "6.91µWh",
-  tv: "34.32μs",
-  car: "17.21µm",
-  elevator: "15.71mm",
-  a4: "26.43µg",
+  efficiency: "1.2",
 };
 
-const HardwareSpec = () => {
+const HardwareSpec = ({ response }) => {
   const isMobile = useMediaQuery({ query: "(max-width:550px)" });
   return (
     <BoxContainer>
@@ -30,33 +21,33 @@ const HardwareSpec = () => {
           </Item>
           <Item>
             <div>코어 개수</div>
-            <div>{response.coreCount}개</div>
+            <div>{responseDefault.coreCount}개</div>
           </Item>
           <Item>
             <div>CPU 전력 사용 비율</div>
-            <div>{response.cpuWatt}</div>
+            <div>{responseDefault.cpuWatt}</div>
           </Item>
           <Item>
-            <div>CPU 사용 비율</div>
-            <div>{response.cpuPercent}</div>
+            <div>메모리 사용량</div>
+            <div>{response.memoryUsage}</div>
           </Item>
           <Item>
             <div>가용 메모리 크기</div>
-            <div>{response.memory}</div>
+            <div>{responseDefault.memory}</div>
           </Item>
           <Item>
             <div>
               메모리 사용량에 따른 <br />
               전력 소비 비율
             </div>
-            <div>{response.wattPerGB}</div>
+            <div>{responseDefault.wattPerGB}</div>
           </Item>
           <Item>
             <div>
               데이터 센터의 에너지 <br />
               효율성
             </div>
-            <div>{response.efficiency}</div>
+            <div>{responseDefault.efficiency}</div>
           </Item>
         </>
       ) : (
@@ -66,13 +57,13 @@ const HardwareSpec = () => {
               <div>런타임</div>
               <div>코어 개수</div>
               <div>CPU 전력 사용 비율</div>
-              <div>CPU 사용 비율</div>
+              <div>메모리 사용량</div>
             </Black>
             <Gray>
               <div>{response.runtime}</div>
-              <div>{response.coreCount}개</div>
-              <div>{response.cpuWatt}</div>
-              <div>{response.cpuPercent}</div>
+              <div>{responseDefault.coreCount}개</div>
+              <div>{responseDefault.cpuWatt}</div>
+              <div>{response.memoryUsage}</div>
             </Gray>
           </TwoPart>
           <TwoPart>
@@ -90,9 +81,9 @@ const HardwareSpec = () => {
               </div>
             </Black>
             <Gray>
-              <div className="wider">{response.memory}</div>
-              <div className="wider">{response.wattPerGB}</div>
-              <div className="wider">{response.efficiency}</div>
+              <div className="wider">{responseDefault.memory}</div>
+              <div className="wider">{responseDefault.wattPerGB}</div>
+              <div className="wider">{responseDefault.efficiency}</div>
             </Gray>
           </TwoPart>
         </>

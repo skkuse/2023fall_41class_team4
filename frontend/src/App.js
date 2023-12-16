@@ -83,7 +83,7 @@ function App() {
         {status !== Status.SUCCESS && <HowItWorks />}
         {status === Status.SUCCESS && (
           <>
-            <HardwareSpec />
+            <HardwareSpec response={response} />
             <CardComponent response={response} />
           </>
         )}
