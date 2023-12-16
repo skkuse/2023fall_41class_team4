@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     // 자식 프로세스의 종료를 기다림
 
     signal(SIGALRM, exit_on_timeout);
-    alarm(3);
+    alarm(30);
     
     struct rusage ru_child;
     wait4(child_pid, &status, 0, &ru_child);
@@ -68,8 +68,8 @@ int main(int argc, char* argv[])
     runtime_us = runtime_us % 1000000;
     double runtime = (double)runtime_s + (double)(runtime_us) / 1000000;
 
-    // 시간 제한 초과
-    if (runtime >= 2.9 || timeout_flag == 1) {
+    // 30초 제한 시간 초과
+    if (runtime >= 29.9 || timeout_flag == 1) {
         // printf("2 %lf %d\n", runtime, timeout_flag); // timeout flag check
         printf("2 %lf\n", runtime);
         exit(0);
