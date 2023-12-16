@@ -11,6 +11,7 @@ import Status from "./constants/status";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Modal from "./components/modal";
 
 function App() {
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
@@ -42,9 +43,15 @@ function App() {
             setStatus(Status.SUCCESS);
             setResponse(response.data);
         } catch (e) {
+            console.log(e.response.data);
             // compile error or runtime error
-            setStatus(Status.COMPILEERROR);
+            if (e.response.data.error === "RuntimeError") {
+                setStatus(Status.RUNTIMEERROR);
+            } else {
+                setStatus(Status.COMPILEERROR);
+            }
             setResponse(e.response.data);
+            setModalVisible(true);
         }
     }
 
@@ -75,8 +82,25 @@ function App() {
         setLineCount(editorRef.current.getModel().getLineCount());
     }
 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const closeModal = () => {
+        setModalVisible(false);
+    };
+
     return (
         <>
+            <Modal
+                visible={modalVisible}
+                closable={true}
+                maskClosable={true}
+                onClose={closeModal}
+            >
+                {status === Status.COMPILEERROR ||
+                    (status === Status.RUNTIMEERROR && (
+                        <ModalMessage>{response.message}</ModalMessage>
+                    ))}
+            </Modal>
             <Header />
             <Wrapper>
                 <ToastContainer />
@@ -101,6 +125,14 @@ function App() {
         </>
     );
 }
+
+const ModalMessage = styled.div`
+    font-size: 1rem;
+    font-weight: medium;
+    overflow: auto;
+    word-break: break-all;
+    margin-top: 0.5rem;
+`;
 
 const Wrapper = styled.div`
     display: flex;
