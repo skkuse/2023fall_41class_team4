@@ -37,7 +37,7 @@ function App() {
 
     async function fetchResult(value) {
         try {
-            const timeout = 5000;
+            const timeout = 30000;
             const response = await axios.post("/carbon-emission", {
                 timeout,
                 code: value,
