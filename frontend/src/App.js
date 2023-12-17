@@ -17,7 +17,7 @@ function App() {
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
 
     const defaultValue =
-        "// Write down your code here\n// Your class name must be Main\n public class Main {\npublic static void main(String[] args) {\n\n}\n}";
+        "// Write down your code here\n// Your class name must be Main\npublic class Main {\n   public static void main(String[] args) {\n\n   }\n}";
 
     const editorRef = useRef(null);
 
@@ -43,8 +43,6 @@ function App() {
             setStatus(Status.SUCCESS);
             setResponse(response.data);
         } catch (e) {
-            console.log(e.response.data);
-            // compile error or runtime error
             if (e.response.data.error === "RuntimeError") {
                 setStatus(Status.RUNTIMEERROR);
             } else {
@@ -115,7 +113,7 @@ function App() {
                 {status !== Status.SUCCESS && <HowItWorks />}
                 {status === Status.SUCCESS && (
                     <>
-                        <HardwareSpec />
+                        <HardwareSpec response={response} />
                         <CardComponent response={response} />
                     </>
                 )}
