@@ -38,7 +38,7 @@ function Modal({
                             icon={faClose}
                             className="icon"
                             onClick={close}
-                            size="lg"
+                            size="m"
                         />
                     )}
                     {children}
@@ -85,7 +85,7 @@ const ModalInner = styled.div`
     overflow-y: scroll;
     transform: translateY(-50%);
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 20px;
 `;
 
 export default Modal;
