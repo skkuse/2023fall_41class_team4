@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Status from "../constants/status";
 
-const JavaEditor = ({
+const CodeEditor = ({
   defaultValue,
   status,
   handleSubmit,
@@ -155,4 +155,4 @@ const StatusText = styled.p`
       : "#38C972"};
 `;
 
-export default JavaEditor;
+export default CodeEditor;
