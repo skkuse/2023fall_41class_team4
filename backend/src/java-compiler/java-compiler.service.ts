@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
-import { Code } from 'src/db/entity/code.entity';
-import { CompileError } from 'src/dto/java-error.exception';
+import { Code } from '@app/db/entity/code.entity';
+import { CompileError } from '@app/dto/java-error.exception';
 import { mkdir, writeFile } from 'fs/promises';
-import { ExecutionStatus } from 'src/db/entity/execution-status.enum';
-import { DBRepository } from 'src/db/db.repository';
+import { ExecutionStatus } from '@app/db/entity/execution-status.enum';
+import { DBRepository } from '@app/db/db.repository';
 
 @Injectable()
 export class JavaCompilerService {

@@ -13,7 +13,7 @@ import {
 
 @Injectable()
 export class AppService {
-  private readonly config;
+  readonly config;
 
   constructor(
     private readonly repository: DBRepository,
@@ -42,7 +42,7 @@ export class AppService {
     await this.javaCompilerService.compile(code);
     const executionResult = await this.javaRunnerService.run(code);
 
-    const emission = await this.applyGreenAlgorithm(executionResult);
+    const emission = this.applyGreenAlgorithm(executionResult);
     await this.repository.updateCode({
       id: code.id,
       emission,
@@ -50,13 +50,13 @@ export class AppService {
     });
 
     return new CarbonEmissionResponseDto(
-      this.converterService.convertCarbonEmission(emission),
+      this.converterService.convert(emission),
       executionResult.runtime * SECOND_TO_MILLISECOND,
       executionResult.memUsage / KILOBYTE_TO_MEGABYTE,
     );
   }
 
-  async applyGreenAlgorithm(execution: ExecutionResult): Promise<number> {
+  applyGreenAlgorithm(execution: ExecutionResult): number {
     const runtime = execution.runtime / 60 / 60; // s to h
     const memUsage = execution.memUsage / 1024 / 1024; // KB to GB
 

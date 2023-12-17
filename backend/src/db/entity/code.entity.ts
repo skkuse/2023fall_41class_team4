@@ -19,6 +19,6 @@ export class Code {
   @JoinColumn({ name: 'execution_result_id' })
   executionResult!: ExecutionResult;
 
-  @Column({ type: 'double' })
+  @Column({ type: 'double', nullable: true })
   emission!: number;
 }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Code } from 'src/db/entity/code.entity';
-import { ExecutionResult } from 'src/db/entity/execution-result.entity';
+import { Code } from '@app/db/entity/code.entity';
+import { ExecutionResult } from '@app/db/entity/execution-result.entity';
 import { DBRepository } from './db.repository';
 import { Emission } from './entity/emission.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
