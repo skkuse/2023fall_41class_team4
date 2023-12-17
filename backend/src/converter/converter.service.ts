@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CarbonEmissionConvertedResultDto } from 'src/dto/carbon-emission-converted-result.dto';
+import { CarbonEmissionConvertedResultDto } from '@app/dto/carbon-emission-converted-result.dto';
 import {
   CONVERTER_CONFIG,
   HOUR_TO_MILLISECOND,
   KILO_TO_MILLI,
   MILLI,
-} from "./converter.constants";
+} from './converter.constants';
 import { Reference } from './reference.enum';
 
 /**

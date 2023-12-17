@@ -6,7 +6,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CarbonEmissionRequestDto } from 'src/dto/carbon-emission-request.dto';
+import { CarbonEmissionRequestDto } from '@app/dto/carbon-emission-request.dto';
 import {
   ApiCreatedResponse,
   ApiOperation,

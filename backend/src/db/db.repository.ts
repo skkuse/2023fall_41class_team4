@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, In, Repository } from 'typeorm';
-import { Code } from 'src/db/entity/code.entity';
+import { Code } from '@app/db/entity/code.entity';
 import { Emission } from './entity/emission.entity';
 
 @Injectable()
