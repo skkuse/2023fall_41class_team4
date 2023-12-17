@@ -61,11 +61,11 @@ describe('JavaRunnerService', () => {
     beforeAll(async () => {
       // mock code repository and create code
       const input = `public class Main {
-        public static void main(String[] args) {
-          int[] numbers = {1, 2, 3};
-          System.out.println(numbers[2]);
-        }
-      }`;
+  public static void main(String[] args) {
+    int[] numbers = {1, 2, 3};
+    System.out.println(numbers[2]);
+  }
+}`;
       dataSource = await ds.initialize();
       codeRepository = dataSource.getRepository(Code);
       code = codeRepository.create({ code: input });
