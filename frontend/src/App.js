@@ -5,7 +5,7 @@ import Footer from "./components/footer";
 import HowItWorks from "./components/howItWorks";
 import styled from "styled-components";
 import HardwareSpec from "./components/hardwareSpec";
-import JavaEditor from "./components/javaEditor";
+import CodeEditor from "./components/codeEditor";
 import CardComponent from "./components/cardContainer";
 import Status from "./constants/status";
 import axios from "axios";
@@ -14,12 +14,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Modal from "./components/modal";
 
 function App() {
+
     //response 여기서 받아서 삼항연산자로 <howitworks/> : <hardwareSpce/><탄소배출량 />로 하여 props로 response 내려보내주기
 
     const defaultValue =
         "// Write down your code here\n// Your class name must be Main\npublic class Main {\n   public static void main(String[] args) {\n\n   }\n}";
 
     const editorRef = useRef(null);
+
 
     // response state
     const [response, setResponse] = useState(null);
@@ -123,6 +125,7 @@ function App() {
             <Footer />
         </>
     );
+
 }
 
 const ModalMessage = styled.div`
