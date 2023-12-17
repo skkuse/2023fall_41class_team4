@@ -50,7 +50,7 @@ export class AppService {
     });
 
     return new CarbonEmissionResponseDto(
-      this.converterService.convertCarbonEmission(emission),
+      this.converterService.convert(emission),
       executionResult.runtime * SECOND_TO_MILLISECOND,
       executionResult.memUsage / KILOBYTE_TO_MEGABYTE,
     );

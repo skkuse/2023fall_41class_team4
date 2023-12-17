@@ -27,9 +27,7 @@ export class ConverterService {
    * 탄소 배출량을 입력으로 받아, 실생활 사용량으로 변환하는 메서드입니다.
    * @param carbonEmission 탄소 배출량 (gCo2e 단위)
    */
-  convertCarbonEmission(
-    carbonEmission: number,
-  ): CarbonEmissionConvertedResultDto {
+  convert(carbonEmission: number): CarbonEmissionConvertedResultDto {
     // 1. 탄소 배출량 계산
     // mgCO2e 단위
     const convertedCarbonEmission: number = carbonEmission * MILLI;

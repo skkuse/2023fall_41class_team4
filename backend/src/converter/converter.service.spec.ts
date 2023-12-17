@@ -51,7 +51,7 @@ describe('ConverterService', () => {
     );
 
     it('should convert execution result', () => {
-      const result = service.convertCarbonEmission(emission);
+      const result = service.convert(emission);
       expect(result).toEqual(expected);
     });
   });

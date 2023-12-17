@@ -15,9 +15,9 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/carbon-emission (POST)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .post('/carbon-emission')
       .expect(200)
       .expect('Hello World!');
   });
