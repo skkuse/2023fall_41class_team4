@@ -44,7 +44,10 @@ function App() {
       } else {
         setStatus(Status.COMPILEERROR);
       }
+
       setResponse(e.response.data);
+      console.log("res is ", response.message);
+
       setModalVisible(true);
     }
   }
@@ -87,9 +90,11 @@ function App() {
         maskClosable={true}
         onClose={closeModal}
       >
-        {status === (Status.COMPILEERROR || Status.RUNTIMEERROR) && (
-          <ModalMessage>{response.message}</ModalMessage>
-        )}
+        {response &&
+          (status === Status.COMPILEERROR ||
+            status === Status.RUNTIMEERROR) && (
+            <ModalMessage>{response.message}</ModalMessage>
+          )}
       </Modal>
       <Header />
       <Wrapper>
