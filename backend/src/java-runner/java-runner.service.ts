@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ExecutionResult } from '../db/entity/execution-result.entity';
 import { execSync } from 'child_process';
-import { ExecutionStatus, Status } from 'src/db/entity/execution-status.enum';
-import { Code } from 'src/db/entity/code.entity';
-import { KilledError, RuntimeError } from 'src/dto/java-error.exception';
+import { ExecutionStatus, Status } from '@app/db/entity/execution-status.enum';
+import { Code } from '@app/db/entity/code.entity';
+import { KilledError, RuntimeError } from '@app/dto/java-error.exception';
 import { ConfigService } from '@nestjs/config';
 import { readFile } from 'fs/promises';
-import { DBRepository } from 'src/db/db.repository';
+import { DBRepository } from '@app/db/db.repository';
 
 @Injectable()
 export class JavaRunnerService {
