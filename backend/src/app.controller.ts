@@ -27,7 +27,7 @@ export class AppController {
   @ApiCreatedResponse({ type: CarbonEmissionResponseDto })
   @ApiUnprocessableEntityResponse({ type: ErrorResponseDTO })
   @ApiCreatedResponse({ type: JavaError })
-  async calculateEmissions(
+  async calculateEmission(
     @Body() body: CarbonEmissionRequestDto,
   ): Promise<CarbonEmissionResponseDto> {
     try {
