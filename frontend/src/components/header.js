@@ -9,6 +9,9 @@ const HeaderDiv = styled.div`
   background-image: url(${require(`../assets/grass.jpg`)});
   background-position: center;
   background-size: cover;
+  @media screen and (max-width: 320px) {
+    font-size: 2rem;
+  }
 `;
 
 const Header = () => {
