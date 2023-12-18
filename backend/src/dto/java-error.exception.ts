@@ -21,6 +21,6 @@ export class RuntimeError extends JavaError {
 
 export class KilledError extends JavaError {
   constructor(cause) {
-    super(`${cause} 제한을 조과하여 프로세스가 강제 종료되었습니다.`);
+    super(`${cause} 제한을 초과하여 프로세스가 강제 종료되었습니다.`);
   }
 }
