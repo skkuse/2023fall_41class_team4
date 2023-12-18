@@ -39,15 +39,14 @@ function App() {
       setStatus(Status.SUCCESS);
       setResponse(response.data);
     } catch (e) {
+      setResponse(e.response.data);
       if (e.response.data.error === "RuntimeError") {
         setStatus(Status.RUNTIMEERROR);
+      } else if (e.response.data.error === "KilledError") {
+        setStatus(Status.KILLEDERROR);
       } else {
         setStatus(Status.COMPILEERROR);
       }
-
-      setResponse(e.response.data);
-      console.log("res is ", response.message);
-
       setModalVisible(true);
     }
   }
@@ -92,7 +91,8 @@ function App() {
       >
         {response &&
           (status === Status.COMPILEERROR ||
-            status === Status.RUNTIMEERROR) && (
+            status === Status.RUNTIMEERROR ||
+            status === Status.KILLEDERROR) && (
             <ModalMessage>{response.message}</ModalMessage>
           )}
       </Modal>

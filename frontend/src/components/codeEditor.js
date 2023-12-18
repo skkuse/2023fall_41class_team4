@@ -31,6 +31,9 @@ const CodeEditor = ({
       case Status.COMPILEERROR:
         return "코드 컴파일 중 오류가 발생했습니다.";
 
+      case Status.KILLEDERROR:
+        return "시간 제한을 초과했습니다.";
+
       default:
         return "코드를 입력해주세요.";
     }
@@ -150,7 +153,8 @@ const StatusText = styled.p`
   }
   color: ${(props) =>
     props.$status === Status.RUNTIMEERROR ||
-    props.$status === Status.COMPILEERROR
+    props.$status === Status.COMPILEERROR ||
+    props.$status === Status.KILLEDERROR
       ? "#C94138"
       : "#38C972"};
 `;
