@@ -18,7 +18,8 @@ function App() {
     "// Write down your code here\n// Your class name must be Main\npublic class Main {\n   public static void main(String[] args) {\n\n   }\n}";
 
   const editorRef = useRef(null);
-
+  console.warn = function no_console() {};
+  console.error = function () {};
   const [response, setResponse] = useState(null);
   const [status, setStatus] = useState(Status.WAITING);
   const [lineCount, setLineCount] = useState();
