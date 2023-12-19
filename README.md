@@ -20,7 +20,7 @@ CODEMETER(코드미터)는 사용자로부터 JAVA 코드를 입력받아 이를
 
 ## 사용법
 
-1. **코드 입력**: [CODEMETER 웹 페이지](<(https://not-yet.com)>)에서 JAVA 코드를 입력합니다.
+1. **코드 입력**: [CODEMETER 웹 페이지](http://43.202.126.245/)에서 JAVA 코드를 입력합니다.
 
 2. **컴파일 및 실행**: 입력한 코드는 서버에서 컴파일되고 실행됩니다.
 
@@ -28,19 +28,13 @@ CODEMETER(코드미터)는 사용자로부터 JAVA 코드를 입력받아 이를
 
 4. **탄소 배출량 확인**: 측정된 결과를 기반으로 코드 실행 시 서버에서 발생한 탄소 배출량을 확인합니다.
 
-## 사용한 프레임워크
+## Tech Stack
 
-### Frontend
+<p align="center"><img width="701" alt="스크린샷 2023-12-19 오후 12 55 49" src="https://github.com/skkuse/2023fall_41class_team4/assets/66549638/968cfc7a-0164-4354-a3f5-2cd328829bdb"></p>
 
-|    언어    | 라이브러리/프레임워크 |    스타일링 툴    |
-| :--------: | :-------------------: | :---------------: |
-| JavaScript |         React         | Styled-components |
+## System Architecture
 
-### Backend
-
-| 프레임워크 | 데이터베이스 |
-| :--------: | :----------: |
-|  Next.js   |    MySQL     |
+<p align="center"><img width="1180" alt="스크린샷 2023-12-19 오후 1 01 24" src="https://github.com/skkuse/2023fall_41class_team4/assets/66549638/929bbbcb-5923-49cf-ad28-ee294e7d7627"></p>
 
 ## 주의사항
 
@@ -66,4 +60,4 @@ CODEMETER(코드미터)는 사용자로부터 JAVA 코드를 입력받아 이를
 
 ---
 
-더 많은 정보 및 업데이트는 [CODEMETER 웹사이트](https://not-yet.com)에서 확인하실 수 있습니다.
+더 많은 정보 및 업데이트는 [CODEMETER 웹사이트](http://43.202.126.245/)에서 확인하실 수 있습니다.
