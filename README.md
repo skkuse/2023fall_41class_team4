@@ -50,7 +50,7 @@ CODEMETER(코드미터)는 사용자로부터 JAVA 코드를 입력받아 이를
 - 프로젝트 팀 이름: 4조
 - 프로젝트 팀원
   - 프론트엔드
-    - 김동한: dwchoi95@gmail.com
+    - 김동한: behind8486@gmail.com
     - 조유지: youjicho@g.skku.edu
   - 백엔드
     - 안낙균: rbszzang@g.skku.edu
