@@ -38,7 +38,7 @@ function Modal({
                             icon={faClose}
                             className="icon"
                             onClick={close}
-                            size="m"
+                            size="sm"
                         />
                     )}
                     {children}
