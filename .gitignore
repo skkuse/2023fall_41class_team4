@@ -14,7 +14,7 @@ build/
 
 # misc
 .DS_Store
-.env*
+.env
 .db_env
 .vscode
 
